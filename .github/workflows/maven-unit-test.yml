@@ -102,6 +102,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: jacoco-report
-          path: >
-            target/jacoco-report/
-            badges_dir/
+          path: |
+            target/jacoco-report/*
+            badges_dir/*
