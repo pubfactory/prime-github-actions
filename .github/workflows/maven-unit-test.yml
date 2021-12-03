@@ -77,7 +77,7 @@ jobs:
         run: |
           if [[ ${{ inputs.commit-jacoco-badge }} ]]; then
             mkdir -p badges/$GITHUB_REF_NAME
-            mv badges_dir badges/$GITHUB_REF_NAME
+            mv badges_dir/* badges/$GITHUB_REF_NAME
             cd badges/$GITHUB_REF_NAME
             ls -l
             if [[ `git status --porcelain` ]]; then
