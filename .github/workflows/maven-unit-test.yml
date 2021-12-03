@@ -27,6 +27,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Checkout badges branch to a badges directory nested inside first checkout
+        uses: actions/checkout@v2
+        with:
+          ref: badges
+          path: badges
+
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
@@ -56,7 +62,7 @@ jobs:
         id: jacoco
         uses: cicirello/jacoco-badge-generator@v2
         with:
-          badges-directory: badges/$GITHUB_REF_NAME
+          badges-directory: badges_dir
           generate-summary: true
           on-missing-report: quiet
           fail-if-coverage-less-than: 75
@@ -70,6 +76,8 @@ jobs:
       - name: Commit the badge (if it changed)
         run: |
           if [[ ${{ inputs.commit-jacoco-badge }} ]]; then
+            mkdir -p badges/$GITHUB_REF_NAME
+            mv badges_dir badges/$GITHUB_REF_NAME
             cd badges/$GITHUB_REF_NAME
             ls -l
             if [[ `git status --porcelain` ]]; then
