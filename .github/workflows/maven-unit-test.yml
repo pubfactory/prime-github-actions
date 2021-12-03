@@ -13,9 +13,6 @@ on:
         default: 'target/jacoco-report/jacoco.csv'
         required: false
         type: string
-    secrets:
-      MAVEN_SETTINGS:
-        required: true
 
 jobs:
 
