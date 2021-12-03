@@ -18,6 +18,9 @@ on:
         required: true
 
 jobs:
+
+  runs-on: ubuntu-latest
+
   unit-test:
 
     steps:
