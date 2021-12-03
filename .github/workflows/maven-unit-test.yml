@@ -75,11 +75,10 @@ jobs:
 
       - name: Commit the badge (if it changed)
         run: |
+          mkdir -p badges/$GITHUB_REF_NAME
+          mv badges_dir/* badges/$GITHUB_REF_NAME
           if [[ ${{ inputs.commit-jacoco-badge }} ]]; then
-            mkdir -p badges/$GITHUB_REF_NAME
-            mv badges_dir/* badges/$GITHUB_REF_NAME
             cd badges/$GITHUB_REF_NAME
-            ls -l
             if [[ `git status --porcelain` ]]; then
               git config --global user.name 'pubfactory-service'
               git config --global user.email 'noreply@pubfactory.com'
@@ -98,4 +97,4 @@ jobs:
           name: jacoco-report
           path: >
             target/jacoco-report/
-            $GITHUB_REF_NAME/badges/
+            badges/$GITHUB_REF_NAME
