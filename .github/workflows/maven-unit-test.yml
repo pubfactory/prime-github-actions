@@ -23,6 +23,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      BADGES_DIR: $GITHUB_REF_NAME/badges
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -56,7 +59,7 @@ jobs:
         id: jacoco
         uses: cicirello/jacoco-badge-generator@v2
         with:
-          badges-directory: "$GITHUB_REF_NAME/badges"
+          badges-directory: ${{ env.BADGES_DIR }}
           generate-summary: true
           on-missing-report: quiet
           fail-if-coverage-less-than: 75
