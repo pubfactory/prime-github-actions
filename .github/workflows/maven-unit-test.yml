@@ -10,6 +10,11 @@ name: Maven Unit Test
 on:
   workflow_call:
     inputs:
+      push-to-nexus:
+        description: 'should we push the resulting artifact to nexus - default=false'
+        default: false
+        required: false
+        type: boolean
       commit-jacoco-badge:
         description: 'Do you want to commit the jacoco badge after generating code coverage data?'
         default: true
@@ -63,7 +68,13 @@ jobs:
           MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
 
       - name: Maven run unit tests
-        run: mvn clean test
+        run: |
+          if [[ ${{ inputs.push-to-nexus }} ]]; then
+            mvn clean package deploy
+          fi
+          if [[ ${{ !inputs.push-to-nexus }} ]]; then
+            mvn clean test
+          fi
 
       - name: Generate JaCoCo Badge
         id: jacoco
