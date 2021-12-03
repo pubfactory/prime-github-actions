@@ -84,7 +84,7 @@ jobs:
           generate-summary: true
           on-missing-report: quiet
           fail-if-coverage-less-than: 75
-          jacoco-csv-file: {{ inputs.jacoco-csv-file }}
+          jacoco-csv-file: ${{ inputs.jacoco-csv-file }}
 
       - name: Log coverage percentage
         run: |
