@@ -19,9 +19,9 @@ on:
 
 jobs:
 
-  runs-on: ubuntu-latest
-
   unit-test:
+
+    runs-on: ubuntu-latest
 
     steps:
 
