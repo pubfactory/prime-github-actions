@@ -5,7 +5,7 @@
 # By: JGF
 ############################################################################################
 
-name: Maven unit test
+name: Maven Unit Test
 
 on:
   workflow_call:
