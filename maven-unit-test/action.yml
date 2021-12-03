@@ -32,9 +32,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
-          key: ${{ github.event.inputs.runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ inputs.runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ github.event.inputs.runner.os }}-maven-
+            ${{ inputs.runner.os }}-maven-
 
       - name: Set up JDK 11
         uses: actions/setup-java@v2
@@ -65,12 +65,12 @@ jobs:
 
       - name: Log coverage percentage
         run: |
-          echo "coverage = ${{ github.event.steps.jacoco.outputs.coverage }}"
-          echo "branch coverage = ${{ github.event.steps.jacoco.outputs.branches }}"
+          echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
+          echo "branch coverage = ${{ steps.jacoco.outputs.branches }}"
 
       - name: Commit the badge (if it changed)
         run: |
-          if [[ ${{ github.event.inputs.commit-jacoco-badge }} ]]; then
+          if [[ ${{ inputs.commit-jacoco-badge }} ]]; then
             cd $GITHUB_REF_NAME/badges
             if [[ `git status --porcelain` ]]; then
               git config --global user.name 'pubfactory-service'
@@ -80,7 +80,7 @@ jobs:
               git push
             fi
           fi
-          if [[ ${{ github.event.inputs.commit-jacoco-badge }} ]]; then
+          if [[ ${{ inputs.commit-jacoco-badge }} ]]; then
             echo "configured not to commit badge"
           fi
 
