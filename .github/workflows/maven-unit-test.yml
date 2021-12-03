@@ -56,7 +56,7 @@ jobs:
         id: jacoco
         uses: cicirello/jacoco-badge-generator@v2
         with:
-          badges-directory: $GITHUB_REF_NAME/badges
+          badges-directory: ${{ env.GITHUB_REF_NAME }}/badges
           generate-summary: true
           on-missing-report: quiet
           fail-if-coverage-less-than: 75
