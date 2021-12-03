@@ -1,7 +1,5 @@
 name: Maven unit test
 
-concurrency: $GITHUB_REPOSITORY-$GITHUB_REF_NAME
-
 on:
   workflow_call:
     inputs:
