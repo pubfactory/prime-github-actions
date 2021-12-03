@@ -1,3 +1,10 @@
+############################################################################################
+# Workflow that checks out code, runs `mvn clean test`, generates test reports, and commits code coverage badge (if configured)
+# To use this workflow we assume you have a branch called "badges" for the badges to live in
+#
+# By: JGF
+############################################################################################
+
 name: Maven unit test
 
 on:
@@ -76,7 +83,7 @@ jobs:
       - name: Commit the badge (if it changed)
         run: |
           mkdir -p badges/$GITHUB_REF_NAME
-          mv badges_dir/* badges/$GITHUB_REF_NAME
+          cp -rf badges_dir/* badges/$GITHUB_REF_NAME/.
           if [[ ${{ inputs.commit-jacoco-badge }} ]]; then
             cd badges/$GITHUB_REF_NAME
             if [[ `git status --porcelain` ]]; then
@@ -97,4 +104,4 @@ jobs:
           name: jacoco-report
           path: >
             target/jacoco-report/
-            badges/$GITHUB_REF_NAME
+            badges_dir/
