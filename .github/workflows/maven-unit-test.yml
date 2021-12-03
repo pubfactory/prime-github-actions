@@ -56,7 +56,7 @@ jobs:
         id: jacoco
         uses: cicirello/jacoco-badge-generator@v2
         with:
-          badges-directory: join([$GITHUB_REF_NAME, "/badges"])
+          badges-directory: badges
           generate-summary: true
           on-missing-report: quiet
           fail-if-coverage-less-than: 75
@@ -70,8 +70,10 @@ jobs:
       - name: Commit the badge (if it changed)
         run: |
           if [[ ${{ inputs.commit-jacoco-badge }} ]]; then
+            mv badges $GITHUB_REF_NAME/badges
             ls -l
             cd $GITHUB_REF_NAME/badges
+            ls -l
             if [[ `git status --porcelain` ]]; then
               git config --global user.name 'pubfactory-service'
               git config --global user.email 'noreply@pubfactory.com'
