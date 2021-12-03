@@ -70,7 +70,7 @@ jobs:
       - name: Maven run unit tests
         run: |
           if [[ ${{ inputs.push-to-nexus }} ]]; then
-            mvn clean package deploy
+            mvn clean test package deploy
           fi
           if [[ ${{ !inputs.push-to-nexus }} ]]; then
             mvn clean test

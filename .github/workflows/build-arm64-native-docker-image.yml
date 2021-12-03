@@ -22,7 +22,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: Checkout Repository
       - uses: actions/checkout@v2
+
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
