@@ -45,7 +45,6 @@ jobs:
       - name: Override maven settings.xml
         run: |
           echo $MAVEN_SETTINGS > ~/.m2/settings.xml
-          echo "Jeff - $MAVEN_SETTINGS"
         shell: bash
         env:
           MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
@@ -71,6 +70,7 @@ jobs:
       - name: Commit the badge (if it changed)
         run: |
           if [[ ${{ inputs.commit-jacoco-badge }} ]]; then
+            ls -l
             cd $GITHUB_REF_NAME/badges
             if [[ `git status --porcelain` ]]; then
               git config --global user.name 'pubfactory-service'
