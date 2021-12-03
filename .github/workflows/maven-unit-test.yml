@@ -115,4 +115,5 @@ jobs:
           name: jacoco-report
           path: |
             target/jacoco-report/*
+            */target/jacoco-report/*
             badges_dir/*
