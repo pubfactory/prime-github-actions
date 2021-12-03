@@ -1,7 +1,20 @@
-name: Manually build ARM64
+############################################################################################
+# Workflow that checks out code, builds, and pushes a native docker image
+#
+# By: JGF
+############################################################################################
+
+name: Build ARM64 Native Image
 
 on:
-  workflow_dispatch:
+  workflow_call:
+    secrets:
+      MAVEN_SETTINGS:
+        required: true
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_PASSWORD:
+        required: true
 
 jobs:
   build:
