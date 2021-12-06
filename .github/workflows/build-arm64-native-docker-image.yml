@@ -8,12 +8,6 @@ name: Build ARM64 Native Image
 
 on:
   workflow_call:
-    inputs:
-      notify-slack-channel:
-        description: 'the slack channel to notify on failure'
-        default: 'prime'
-        required: false
-        type: string
     secrets:
       MAVEN_SETTINGS:
         required: true
@@ -21,7 +15,7 @@ on:
         required: true
       DOCKERHUB_PASSWORD:
         required: true
-      SLACK_WEBHOOK_API_KEY:
+      SLACK_WEBHOOK:
         required: true
 
 jobs:
@@ -79,7 +73,7 @@ jobs:
         if: ${{ failure() }}
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_API_KEY }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: ${{ inputs.notify-slack-channel }}
           SLACK_USERNAME: 'GitBot'
           SLACK_COLOR: ${{ job.status }}
