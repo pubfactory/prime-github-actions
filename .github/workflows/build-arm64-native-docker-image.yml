@@ -14,14 +14,16 @@ on:
         default: 'prime'
         required: false
         type: string
+      slack-webhook:
+        description: 'the webhook to use to notify slack'
+        required: true
+        type: string
     secrets:
       MAVEN_SETTINGS:
         required: true
       DOCKERHUB_USERNAME:
         required: true
       DOCKERHUB_PASSWORD:
-        required: true
-      SLACK_WEBHOOK_API_KEY:
         required: true
 
 jobs:
@@ -79,8 +81,7 @@ jobs:
         if: ${{ failure() }}
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_API_KEY }}
-          SLACK_CHANNEL: ${{ inputs.notify-slack-channel }}
+          SLACK_WEBHOOK: ${{ inputs.slack-webhook }}
           SLACK_USERNAME: 'GitBot'
           SLACK_COLOR: ${{ job.status }}
           SLACK_TITLE: 'Build Failure'
