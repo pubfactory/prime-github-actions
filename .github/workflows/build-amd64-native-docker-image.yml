@@ -8,7 +8,6 @@ name: Build AMD64 Native Image
 
 on:
     workflow_call:
-      inputs:
       secrets:
         MAVEN_SETTINGS:
           required: true
