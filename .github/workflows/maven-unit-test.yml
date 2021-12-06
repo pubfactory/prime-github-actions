@@ -25,8 +25,15 @@ on:
         default: 'target/jacoco-report/jacoco.csv'
         required: false
         type: string
+      notify-slack-channel:
+        description: 'the slack channel to notify on failure'
+        default: 'prime'
+        required: false
+        type: string
     secrets:
       MAVEN_SETTINGS:
+        required: true
+      SLACK_WEBHOOK_API_KEY:
         required: true
 
 jobs:
@@ -117,3 +124,13 @@ jobs:
             target/jacoco-report/*
             */target/jacoco-report/*
             badges_dir/*
+
+      - name: Notify Slack on Failure
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+          env:
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_API_KEY }}
+            SLACK_CHANNEL: ${{ inputs.notify-slack-channel }}
+            SLACK_USERNAME: 'GitBot'
+            SLACK_COLOR: ${{ job.status }}
+            SLACK_TITLE: 'Build Failure'

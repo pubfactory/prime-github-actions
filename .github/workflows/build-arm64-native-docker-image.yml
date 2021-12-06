@@ -8,12 +8,20 @@ name: Build ARM64 Native Image
 
 on:
   workflow_call:
+    inputs:
+      notify-slack-channel:
+        description: 'the slack channel to notify on failure'
+        default: 'prime'
+        required: false
+        type: string
     secrets:
       MAVEN_SETTINGS:
         required: true
       DOCKERHUB_USERNAME:
         required: true
       DOCKERHUB_PASSWORD:
+        required: true
+      SLACK_WEBHOOK_API_KEY:
         required: true
 
 jobs:
@@ -66,3 +74,13 @@ jobs:
 
       - name: Buid native binary
         run: docker buildx build --platform linux/arm64 --push -f src/main/docker/Dockerfile.multistage -t pubfactory/prime-landing:dev-arm64 .
+
+      - name: Notify Slack on Failure
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+          env:
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_API_KEY }}
+            SLACK_CHANNEL: ${{ inputs.notify-slack-channel }}
+            SLACK_USERNAME: 'GitBot'
+            SLACK_COLOR: ${{ job.status }}
+            SLACK_TITLE: 'Build Failure'

@@ -8,13 +8,22 @@ name: Build AMD64 Native Image
 
 on:
     workflow_call:
-        secrets:
-            MAVEN_SETTINGS:
-                required: true
-            DOCKERHUB_USERNAME:
-                required: true
-            DOCKERHUB_PASSWORD:
-                required: true
+      inputs:
+        notify-slack-channel:
+          description: 'the slack channel to notify on failure'
+          default: 'prime'
+          required: false
+          type: string
+      secrets:
+        MAVEN_SETTINGS:
+          required: true
+        DOCKERHUB_USERNAME:
+          required: true
+        DOCKERHUB_PASSWORD:
+          required: true
+        SLACK_WEBHOOK_API_KEY:
+          required: true
+
 
 jobs:
 
@@ -68,3 +77,13 @@ jobs:
             docker build -f src/main/docker/Dockerfile.native -t $GITHUB_REPOSITORY:$GITHUB_REF_NAME-latest -t $GITHUB_REPOSITORY:$GITHUB_REF_NAME-$git_hash .
             docker push $GITHUB_REPOSITORY:$GITHUB_REF_NAME-latest
             docker push $GITHUB_REPOSITORY:$GITHUB_REF_NAME-$git_hash
+
+        - name: Notify Slack on Failure
+          if: ${{ failure() }}
+          uses: rtCamp/action-slack-notify@v2
+            env:
+              SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_API_KEY }}
+              SLACK_CHANNEL: ${{ inputs.notify-slack-channel }}
+              SLACK_USERNAME: 'GitBot'
+              SLACK_COLOR: ${{ job.status }}
+              SLACK_TITLE: 'Build Failure'
