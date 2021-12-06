@@ -77,7 +77,6 @@ jobs:
           uses: rtCamp/action-slack-notify@v2
           env:
             SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-            SLACK_CHANNEL: ${{ inputs.notify-slack-channel }}
             SLACK_USERNAME: 'GitBot'
             SLACK_COLOR: ${{ job.status }}
             SLACK_TITLE: 'Build Failure'
