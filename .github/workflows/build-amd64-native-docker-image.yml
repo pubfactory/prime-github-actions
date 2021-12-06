@@ -81,9 +81,9 @@ jobs:
         - name: Notify Slack on Failure
           if: ${{ failure() }}
           uses: rtCamp/action-slack-notify@v2
-            env:
-              SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_API_KEY }}
-              SLACK_CHANNEL: ${{ inputs.notify-slack-channel }}
-              SLACK_USERNAME: 'GitBot'
-              SLACK_COLOR: ${{ job.status }}
-              SLACK_TITLE: 'Build Failure'
+          env:
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_API_KEY }}
+            SLACK_CHANNEL: ${{ inputs.notify-slack-channel }}
+            SLACK_USERNAME: 'GitBot'
+            SLACK_COLOR: ${{ job.status }}
+            SLACK_TITLE: 'Build Failure'
