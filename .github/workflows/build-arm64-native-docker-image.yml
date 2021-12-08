@@ -74,10 +74,12 @@ jobs:
       - name: Override maven settings.xml
         run: |
           echo $MAVEN_SETTINGS > ~/.m2/settings.xml
-          cp -rf ~/.m2/ ${PWD}/.mvn/wrapper/.m2
         shell: bash
         env:
           MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
+
+      - name: Maven build navite binary
+        run: mvn package -DskipTests -Pnative
 
       - name: Buid native binary
         run: docker buildx build --platform linux/arm64 --push -f src/main/docker/Dockerfile.native -t pubfactory/prime-landing:dev-arm64 .
