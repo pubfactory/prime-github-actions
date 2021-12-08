@@ -41,7 +41,7 @@ jobs:
 
   unit-test:
 
-    runs-on: ${{ secret.RUNS_ON_OS }}
+    runs-on: ${{ secrets.RUNS_ON_OS }}
 
     steps:
       - name: Checkout Repository
@@ -61,11 +61,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Set up JDK ${{ secret.JAVA_VERSION }}
+      - name: Set up JDK ${{ secrets.JAVA_VERSION }}
         uses: actions/setup-java@v2
         with:
-          java-version: ${{ secret.JAVA_VERSION }}
-          distribution: ${{ secret.JAVA_DISTROBUTION }}
+          java-version: ${{ secrets.JAVA_VERSION }}
+          distribution: ${{ secrets.JAVA_DISTROBUTION }}
           cache: maven
 
       - name: Override maven settings.xml

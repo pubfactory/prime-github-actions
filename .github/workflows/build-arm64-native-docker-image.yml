@@ -27,7 +27,7 @@ on:
 jobs:
   build:
 
-    runs-on: ${{ secret.RUNS_ON_OS }}
+    runs-on: ${{ secrets.RUNS_ON_OS }}
 
     steps:
 
@@ -42,18 +42,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Set up JDK ${{ secret.JAVA_VERSION }}
+      - name: Set up JDK ${{ secrets.JAVA_VERSION }}
         uses: actions/setup-java@v2
         with:
-          java-version: ${{ secret.JAVA_VERSION }}
-          distribution: ${{ secret.JAVA_DISTRIBUTION }}
+          java-version: ${{ secrets.JAVA_VERSION }}
+          distribution: ${{ secrets.JAVA_DISTRIBUTION }}
           cache: maven
 
       - name: Set up GraalVm
         uses: DeLaGuardo/setup-graalvm@5.0
         with:
-          graalvm: ${{ secret.GRAALVM_VERSION }}
-          java: java${{ secret.JAVA_VERSION }}
+          graalvm: ${{ secrets.GRAALVM_VERSION }}
+          java: java${{ secrets.JAVA_VERSION }}
           arch: 'aarch64'
 
       - name: Log into docker
