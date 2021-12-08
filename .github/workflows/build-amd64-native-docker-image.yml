@@ -37,17 +37,17 @@ jobs:
         - name: Cache Maven packages
           uses: actions/cache@v2
           with:
-              path: ~/.m2/repository
-              key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-              restore-keys: |
-                  ${{ runner.os }}-maven-
+            path: ~/.m2/repository
+            key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+            restore-keys: |
+                ${{ runner.os }}-maven-
 
         - name: Set up JDK ${{ secrets.JAVA_VERSION }}
           uses: actions/setup-java@v2
           with:
-              java-version: ${{ secrets.JAVA_VERSION }}
-              distribution: ${{ secrets.JAVA_DISTRIBUTION }}
-              cache: maven
+            java-version: ${{ secrets.JAVA_VERSION }}
+            distribution: ${{ secrets.JAVA_DISTRIBUTION }}
+            cache: maven
 
         - name: Set up GraalVm
           uses: DeLaGuardo/setup-graalvm@5.0
@@ -58,8 +58,8 @@ jobs:
         - name: Log into docker
           uses: docker/login-action@v1
           with:
-              username: ${{ secrets.DOCKERHUB_USERNAME }}
-              password: ${{ secrets.DOCKERHUB_PASSWORD }}
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
         - name: Set up Docker Buildx
           id: buildx
