@@ -30,12 +30,18 @@ on:
         required: true
       SLACK_WEBHOOK:
         required: true
+      RUNS_ON_OS:
+        required: true
+      JAVA_DISTROBUTION:
+        required: true
+      JAVA_VERSION:
+        required: true
 
 jobs:
 
   unit-test:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ secret.RUNS_ON_OS }}
 
     steps:
       - name: Checkout Repository
@@ -55,11 +61,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Set up JDK 11
+      - name: Set up JDK ${{ secret.JAVA_VERSION }}
         uses: actions/setup-java@v2
         with:
-          java-version: '11'
-          distribution: 'adopt'
+          java-version: ${{ secret.JAVA_VERSION }}
+          distribution: ${{ secret.JAVA_DISTROBUTION }}
           cache: maven
 
       - name: Override maven settings.xml

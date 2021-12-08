@@ -17,13 +17,19 @@ on:
           required: true
         SLACK_WEBHOOK:
           required: true
+        RUNS_ON_OS:
+          required: true
+        JAVA_DISTROBUTION:
+          required: true
+        JAVA_VERSION:
+          required: true
 
 
 jobs:
 
     build-native-image:
 
-      runs-on: ubuntu-latest
+      runs-on: ${{ secret.RUNS_ON_OS }}
 
       steps:
 
@@ -38,12 +44,18 @@ jobs:
               restore-keys: |
                   ${{ runner.os }}-maven-
 
-        - name: Set up JDK 11
+        - name: Set up JDK ${{ secret.JAVA_VERSION }}
           uses: actions/setup-java@v2
           with:
-              java-version: '11'
-              distribution: 'adopt'
+              java-version: ${{ secret.JAVA_VERSION }}
+              distribution: ${{ secret.JAVA_DISTRIBUTION }}
               cache: maven
+
+        - name: Set up GraalVm
+          uses: DeLaGuardo/setup-graalvm@5.0
+          with:
+            graalvm: ${{ secret.GRAALVM_VERSION }}
+            java: java${{ secret.JAVA_VERSION }}
 
         - name: Log into docker
           uses: docker/login-action@v1
@@ -63,7 +75,7 @@ jobs:
               MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
 
         - name: Maven build navite binary
-          run: mvn package -DskipTests -Pnative -Dquarkus.native.container-build=true
+          run: mvn package -DskipTests -Pnative
 
         - name: Build docker image
           run: |
