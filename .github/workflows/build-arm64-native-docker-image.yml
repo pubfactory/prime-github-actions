@@ -17,7 +17,7 @@ on:
         required: true
       SLACK_WEBHOOK:
         required: true
-      JAVA_DISTROBUTION:
+      JAVA_DISTRIBUTION:
         required: true
       JAVA_VERSION:
         required: true

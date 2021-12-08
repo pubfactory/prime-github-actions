@@ -30,7 +30,7 @@ on:
         required: true
       SLACK_WEBHOOK:
         required: true
-      JAVA_DISTROBUTION:
+      JAVA_DISTRIBUTION:
         required: true
       JAVA_VERSION:
         required: true
@@ -63,7 +63,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: ${{ secrets.JAVA_VERSION }}
-          distribution: ${{ secrets.JAVA_DISTROBUTION }}
+          distribution: ${{ secrets.JAVA_DISTRIBUTION }}
           cache: maven
 
       - name: Override maven settings.xml
