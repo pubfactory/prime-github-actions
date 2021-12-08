@@ -30,8 +30,6 @@ on:
         required: true
       SLACK_WEBHOOK:
         required: true
-      RUNS_ON_OS:
-        required: true
       JAVA_DISTROBUTION:
         required: true
       JAVA_VERSION:
@@ -41,7 +39,7 @@ jobs:
 
   unit-test:
 
-    runs-on: ${{ secrets.RUNS_ON_OS }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository

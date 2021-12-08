@@ -27,7 +27,7 @@ on:
 jobs:
   build:
 
-    runs-on: ${{ secrets.RUNS_ON_OS }}
+    runs-on: ubuntu-latest
 
     steps:
 
