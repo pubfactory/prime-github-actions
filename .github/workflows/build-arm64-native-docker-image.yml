@@ -21,6 +21,8 @@ on:
         required: true
       JAVA_VERSION:
         required: true
+      GRAALVM_VERSION:
+        required: true
 
 jobs:
   build:
