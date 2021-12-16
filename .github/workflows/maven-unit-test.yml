@@ -76,15 +76,15 @@ jobs:
       - name: Maven run unit tests
         run: |
           if [[ ${{ inputs.push-to-nexus }} ]]; then
-            mvn -B clean verify package deploy
+            mvn -B clean test package deploy
           fi
           if [[ ${{ !inputs.push-to-nexus }} ]]; then
-            mvn -B clean verify
+            mvn -B clean test
           fi
 
       - name: Generate JaCoCo Badge
         id: jacoco
-        uses: cicirello/jacoco-badge-generator@v2
+        uses: cicirello/jacoco-badge-generator@v2.5.0
         with:
           badges-directory: badges_dir
           generate-summary: true
