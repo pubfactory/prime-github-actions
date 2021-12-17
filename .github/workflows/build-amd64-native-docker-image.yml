@@ -93,7 +93,7 @@ jobs:
             SLACK_COLOR: ${{ job.status }}
             SLACK_TITLE: 'Build Failure'
 
-        - name: Notify Slack on Failure
+        - name: Notify Slack on Success
           if: ${{ success() }}
           uses: rtCamp/action-slack-notify@v2
           env:
