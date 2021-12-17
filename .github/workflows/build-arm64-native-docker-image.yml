@@ -81,3 +81,13 @@ jobs:
           SLACK_USERNAME: 'GitBot'
           SLACK_COLOR: ${{ job.status }}
           SLACK_TITLE: 'Build Failure'
+
+      - name: Notify Slack on Failure
+        if: ${{ success() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: 'prime-chatops'
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: 'GitBot'
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_TITLE: 'Build Success'
