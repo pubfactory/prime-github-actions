@@ -41,7 +41,7 @@ jobs:
         - name: Checkout Repository
           uses: actions/checkout@v2
           with:
-            ref: $GITHUB_REF_NAME
+            ref: "$GITHUB_REF_NAME"
 
         - name: Cache Maven packages
           uses: actions/cache@v2
