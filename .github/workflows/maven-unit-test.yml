@@ -51,7 +51,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
-          ref: "$GITHUB_REF_NAME"
+          ref: ${{ GITHUB_REF_NAME }}
 
       - name: Checkout badges branch to a badges directory nested inside first checkout
         uses: actions/checkout@v2
