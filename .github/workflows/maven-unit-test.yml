@@ -10,11 +10,6 @@ name: Maven Unit Test
 on:
   workflow_call:
     inputs:
-      branch:
-        description: 'the branch to check out'
-        default: $GITHUB_REF_NAME
-        required: false
-        type: string
       push-to-nexus:
         description: 'should we push the resulting artifact to nexus - default=false'
         default: false
@@ -49,8 +44,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-        with:
-          ref: ${{ inputs.branch }}
 
       - name: Checkout badges branch to a badges directory nested inside first checkout
         uses: actions/checkout@v2
