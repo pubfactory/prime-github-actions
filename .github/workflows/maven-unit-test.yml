@@ -43,7 +43,7 @@ jobs:
 
     steps:
       - name: Set Git Branch
-        if: github.event.action = 'upstream-job-success'
+        if: github.event.action == 'upstream-job-success'
         run: |
           echo "Recieved upstream-job-success message ${{ github.event.client_payload }}"
           echo "$GITHUB_REF_NAME= ${{ github.event.client_payload.branch }}"" >> $GITHUB_ENV
