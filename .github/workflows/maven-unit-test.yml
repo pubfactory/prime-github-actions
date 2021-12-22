@@ -76,10 +76,10 @@ jobs:
       - name: Maven run unit tests
         run: |
           if [[ ${{ inputs.push-to-nexus }} ]]; then
-            mvn clean verify package deploy
+            mvn -B clean verify package deploy
           fi
           if [[ ${{ !inputs.push-to-nexus }} ]]; then
-            mvn clean verify
+            mvn -B clean verify
           fi
 
       - name: Generate JaCoCo Badge
