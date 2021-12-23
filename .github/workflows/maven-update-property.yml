@@ -29,9 +29,8 @@ jobs:
 
   update-property:
     runs-on: ubuntu-latest
-    if: ${{ inputs.version }} != ""
+    if: ${{ inputs.version != "" }}
     steps:
-      - run: echo "${{ inputs.version }}"
       - name: Checkout Repository
         uses: actions/checkout@v2
 
