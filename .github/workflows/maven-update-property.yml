@@ -21,7 +21,9 @@ on:
       MAVEN_SETTINGS:
         required: true
     outputs:
-      property-updated: ${{ jobs.update-property.property-updated }}
+      property-updated:
+        description: "if the job updated the property"
+        value: ${{ jobs.update-property.property-updated }}
 
 jobs:
 
