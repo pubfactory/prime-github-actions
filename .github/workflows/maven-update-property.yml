@@ -21,29 +21,33 @@ on:
       SLACK_WEBHOOK:
         required: true
 
-steps:
-  - name: Checkout Repository
-    uses: actions/checkout@v2
+jobs:
 
-  - name: Override maven settings.xml
-    run: |
-      echo $MAVEN_SETTINGS > ~/.m2/settings.xml
-    shell: bash
-    env:
-      MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
+  update-property:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-  - name: Set Maven Property
-    run: |
-      echo "updating maven proprety ${{ inputs.property }} to value ${{ inputs.value }}"
-      mvn versions:set-property -Dproperty=${{ inputs.property }} -DnewVersion=${{ inputs.value }}
+      - name: Override maven settings.xml
+        run: |
+          echo $MAVEN_SETTINGS > ~/.m2/settings.xml
+        shell: bash
+        env:
+          MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
 
-  - name: Commit (if it changed)
-    run: |
-      if [[ `git status --porcelain` ]]; then
-        git config --global user.name 'pubfactory-service'
-        git config --global user.email 'noreply@pubfactory.com'
-        git add -A
-        git commit -m "Bumping property ${{ inputs.property }} to ${{ inputs.value }}"
-        git push
-        echo "::set-output name=property-updated::true"
-      fi
+      - name: Set Maven Property
+        run: |
+          echo "updating maven proprety ${{ inputs.property }} to value ${{ inputs.value }}"
+          mvn versions:set-property -Dproperty=${{ inputs.property }} -DnewVersion=${{ inputs.value }}
+
+      - name: Commit (if it changed)
+        run: |
+          if [[ `git status --porcelain` ]]; then
+            git config --global user.name 'pubfactory-service'
+            git config --global user.email 'noreply@pubfactory.com'
+            git add -A
+            git commit -m "Bumping property ${{ inputs.property }} to ${{ inputs.value }}"
+            git push
+            echo "::set-output name=property-updated::true"
+          fi
