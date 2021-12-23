@@ -50,7 +50,6 @@ jobs:
 
       - name: Checkout Repository
         uses: actions/checkout@v2
-        with:
 
       - name: Checkout badges branch to a badges directory nested inside first checkout
         uses: actions/checkout@v2
