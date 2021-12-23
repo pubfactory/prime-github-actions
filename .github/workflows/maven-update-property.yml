@@ -12,9 +12,11 @@ on:
       property:
         description: "the maven property to update"
         required: true
+        type: string
       value:
         description: "the value to set the property to"
         required: true
+        type: string
     secrets:
       MAVEN_SETTINGS:
         required: true
