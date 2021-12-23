@@ -25,6 +25,7 @@ jobs:
 
   update-property:
     runs-on: ubuntu-latest
+    if: ${{ input.version }} != '' && ${{ input.property }} != ''
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
