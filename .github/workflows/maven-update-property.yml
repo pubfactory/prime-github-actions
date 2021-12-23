@@ -20,6 +20,8 @@ on:
     secrets:
       MAVEN_SETTINGS:
         required: true
+    outputs:
+      property-updated: ${{ jobs.update-property.property-updated }}
 
 jobs:
 
@@ -51,6 +53,7 @@ jobs:
           mvn versions:set-property -Dproperty=${{ inputs.property }} -DnewVersion=${{ inputs.value }}
 
       - name: Commit (if it changed)
+        id: commit
         run: |
           if [[ `git status --porcelain` ]]; then
             git config --global user.name 'pubfactory-service'
@@ -60,3 +63,5 @@ jobs:
             git push
             echo "::set-output name=property-updated::true"
           fi
+    outputs:
+      property-updated: ${{ steps.commit.property-updated }}
