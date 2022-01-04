@@ -157,4 +157,4 @@ jobs:
           SLACK_TITLE: 'Build Success'
 
     outputs:
-      version-number: ${{ steps.commit.maven.version-number }}
+      version-number: ${{ steps.maven.outputs.version-number }}
