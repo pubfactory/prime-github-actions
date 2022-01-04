@@ -23,7 +23,7 @@ on:
     outputs:
       property-updated:
         description: "if the job updated the property"
-        value: ${{ jobs.update-property.property-updated }}
+        value: ${{ jobs.update-property.outputs.property-updated }}
 
 jobs:
 
@@ -59,7 +59,5 @@ jobs:
         run: |
           echo "::set-output name=propertyupdated::true"
 
-      - run: |
-          echo "is property updated? ${{ steps.commit.propertyupdated }}"
     outputs:
-      property-updated: ${{ steps.commit.propertyupdated }}
+      property-updated: ${{ steps.commit.outputs.property-updated }}
