@@ -40,7 +40,6 @@ jobs:
 
         - name: Checkout Repository
           uses: actions/checkout@v2
-          with:
 
         - name: Cache Maven packages
           uses: actions/cache@v2
