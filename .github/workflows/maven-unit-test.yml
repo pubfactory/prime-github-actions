@@ -93,6 +93,7 @@ jobs:
           if [[ ${{ !inputs.push-to-nexus }} ]]; then
             mvn -B clean verify
           fi
+          sleep 5s
 
       - name: Generate JaCoCo Badge
         id: jacoco
