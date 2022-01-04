@@ -85,7 +85,6 @@ jobs:
       - name: Maven run unit tests
         id: maven
         run: |
-          - name: Get maven version
           echo "::set-output name=version-number::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)"
           if [[ ${{ inputs.push-to-nexus }} ]]; then
             mvn -B clean verify package deploy
