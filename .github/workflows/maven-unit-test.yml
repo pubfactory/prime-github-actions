@@ -37,6 +37,7 @@ on:
     outputs:
       version-number:
         description: "Maven version number of the project"
+        value: ${{ jobs.unit-test.outputs.version-number }}
 
 jobs:
 
