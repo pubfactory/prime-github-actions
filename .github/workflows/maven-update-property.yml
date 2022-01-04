@@ -58,12 +58,12 @@ jobs:
         id: commit
         run: |
           if [[ `git status --porcelain` ]]; then
+            echo "::set-output name=property-updated::true"
             git config --global user.name 'pubfactory-service'
             git config --global user.email 'noreply@pubfactory.com'
             git add -A
             git commit -m "Bumping property ${{ inputs.property }} to ${{ inputs.value }}"
             git push
-            echo "::set-output name=property-updated::true"
           fi
 
       - run: |
