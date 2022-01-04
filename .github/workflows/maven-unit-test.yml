@@ -154,5 +154,5 @@ jobs:
           SLACK_COLOR: ${{ job.status }}
           SLACK_TITLE: 'Build Success'
 
-  outputs:
-    version-number: ${{ steps.commit.maven.version-number }}
+    outputs:
+      version-number: ${{ steps.commit.maven.version-number }}
