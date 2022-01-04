@@ -34,6 +34,9 @@ on:
         required: true
       JAVA_VERSION:
         required: true
+    outputs:
+      version-number:
+        description: "Maven version number of the project"
 
 jobs:
 
@@ -80,7 +83,10 @@ jobs:
           MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
 
       - name: Maven run unit tests
+        id: maven
         run: |
+          - name: Get maven version
+          echo "::set-output name=version-number::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)"
           if [[ ${{ inputs.push-to-nexus }} ]]; then
             mvn -B clean verify package deploy
           fi
@@ -148,3 +154,6 @@ jobs:
           SLACK_USERNAME: 'GitBot'
           SLACK_COLOR: ${{ job.status }}
           SLACK_TITLE: 'Build Success'
+
+  outputs:
+    version-number: ${{ steps.commit.maven.version-number }}
