@@ -27,13 +27,6 @@ on:
 
 jobs:
 
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          echo "value = ${{ inputs.value }}"
-          echo "property = ${{ inputs.property }}"
-
   update-property:
     runs-on: ubuntu-latest
     if: ${{ inputs.value != '' && inputs.property != '' }}
