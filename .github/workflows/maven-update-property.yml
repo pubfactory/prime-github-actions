@@ -29,8 +29,7 @@ jobs:
 
   update-property:
     runs-on: ubuntu-latest
-    if: ${{ inputs.value }}
-    if: ${{ inputs.description }}
+    if: ${{ inputs.value }} != "" && ${{ inputs.description }} != ""
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
