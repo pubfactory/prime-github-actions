@@ -61,13 +61,12 @@ jobs:
           ref: badges
           path: badges
 
-      - name: Cache Maven packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+      - name: Override maven settings.xml
+        run: |
+          echo $MAVEN_SETTINGS > ~/.m2/settings.xml
+        shell: bash
+        env:
+          MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
 
       - name: Set up JDK ${{ secrets.JAVA_VERSION }}
         uses: actions/setup-java@v2
@@ -75,13 +74,6 @@ jobs:
           java-version: ${{ secrets.JAVA_VERSION }}
           distribution: ${{ secrets.JAVA_DISTRIBUTION }}
           cache: maven
-
-      - name: Override maven settings.xml
-        run: |
-          echo $MAVEN_SETTINGS > ~/.m2/settings.xml
-        shell: bash
-        env:
-          MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
 
       - name: Maven run unit tests
         id: maven
