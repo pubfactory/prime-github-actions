@@ -83,9 +83,8 @@ jobs:
             mvn -B clean verify package deploy
           fi
           if [[ ${{ !inputs.push-to-nexus }} ]]; then
-            mvn -B clean verify
+            mvn -B test
           fi
-          sleep 5s
 
       - name: Generate JaCoCo Badge
         id: jacoco
