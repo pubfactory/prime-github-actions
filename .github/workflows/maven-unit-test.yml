@@ -89,7 +89,7 @@ jobs:
             mvn -B clean verify package deploy
           fi
           if [[ ${{ !inputs.push-to-nexus }} ]]; then
-            mvn -B test
+            mvn -B clean test
           fi
 
       - name: Generate JaCoCo Badge

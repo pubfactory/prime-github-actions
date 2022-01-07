@@ -41,14 +41,6 @@ jobs:
         - name: Checkout Repository
           uses: actions/checkout@v2
 
-        - name: Cache Maven packages
-          uses: actions/cache@v2
-          with:
-            path: ~/.m2/repository
-            key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-            restore-keys: |
-                ${{ runner.os }}-maven-
-
         - name: Set up JDK ${{ secrets.JAVA_VERSION }}
           uses: actions/setup-java@v2
           with:
@@ -80,7 +72,7 @@ jobs:
               MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
 
         - name: Maven build navite binary
-          run: mvn package -DskipTests -Pnative
+          run: mvn clean package -DskipTests -Pnative
 
         - name: Build docker image
           run: |
