@@ -124,7 +124,7 @@ jobs:
               git push
             fi
           fi
-          if [[ ${{ inputs.commit-jacoco-badge }} ]]; then
+          if [[ ${{ inputs.commit-jacoco-badge }} != 'true' ]]; then
             echo "configured not to commit badge"
           fi
 
