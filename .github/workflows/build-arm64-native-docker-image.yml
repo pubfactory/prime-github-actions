@@ -68,7 +68,7 @@ jobs:
           MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
 
       - name: Maven build navite binary
-        run: mvn clean package -DskipTests -Pnative
+        run: mvn -U clean package -DskipTests -Pnative
 
       - name: Buid native binary
         run: docker buildx build --platform linux/arm64 --push -f src/main/docker/Dockerfile.multistage -t pubfactory/prime-landing:dev-arm64 .

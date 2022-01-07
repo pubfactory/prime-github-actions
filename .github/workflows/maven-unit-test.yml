@@ -86,10 +86,10 @@ jobs:
         run: |
           echo "::set-output name=version-number::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)"
           if [[ ${{ inputs.push-to-nexus }} ]]; then
-            mvn -B clean verify package deploy
+            mvn -B -U clean verify package deploy
           fi
           if [[ ${{ !inputs.push-to-nexus }} ]]; then
-            mvn -B clean test
+            mvn -B -U clean test
           fi
 
       - name: Generate JaCoCo Badge

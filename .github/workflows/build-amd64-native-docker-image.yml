@@ -72,7 +72,7 @@ jobs:
               MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
 
         - name: Maven build navite binary
-          run: mvn clean package -DskipTests -Pnative
+          run: mvn -U clean package -DskipTests -Pnative
 
         - name: Build docker image
           run: |
