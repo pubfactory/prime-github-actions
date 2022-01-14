@@ -13,9 +13,9 @@ on:
         required: true
         description: "Name of the job to deploy"
         type: string
-      nomad-address:
+    secrets:
+      NOMAD_ADDRESS:
         required: true
-        type: string
 jobs:
 
   nomad-deploy:
@@ -26,12 +26,12 @@ jobs:
       - name: Get job definition
         run: |
           touch /tmp/${{ inputs.job-name }}.json
-          curl -K ${{ inputs.nomad-address }}/v1/job/${{ inputs.job-name }} >> /tmp/${{ inputs.job-name }}.json
+          curl ${{ secrets.NOMAD_ADDRESS }}/v1/job/${{ inputs.job-name }} >> /tmp/${{ inputs.job-name }}.json
 
       - run: cat ./${{ inputs.job-name}}.json
 
       - name: Redeploy Job
-        run: curl --request POST --data /tmp/${{ inputs.job-name}}.json ${{ inputs.nomad-address }}/v1/jobs
+        run: curl --request POST --data /tmp/${{ inputs.job-name}}.json ${{ secrets.NOMAD_ADDRESS }}/v1/jobs
 
       - name: Check deployment result
         uses: let-sh/nomad-deploy-result-action@v1
