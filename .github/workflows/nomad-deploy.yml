@@ -33,12 +33,14 @@ jobs:
 
     steps:
       - name: Get job definition
-        run: curl -K ${{ secrets.NOMAD_ADDRESS }}/v1/job/${{ inputs.job-name }} >> ./${{ inputs.job-name }}.json
+        run: |
+          touch ./${{ inputs.job-name }}.json
+          curl -K ${{ secrets.NOMAD_ADDRESS }}/v1/job/${{ inputs.job-name }} >> ./${{ inputs.job-name }}.json
 
       - run: cat ./${{ inputs.job-name}}.json
 
       - name: Redeploy Job
-        run: curl --request POST --data ./${{ inputs.job-name}}.json ${{ secrets.NOMAD_ADDRESS }}/v1/jobs 
+        run: curl --request POST --data ./${{ inputs.job-name}}.json ${{ secrets.NOMAD_ADDRESS }}/v1/jobs
 
       - name: Check deployment result
         uses: let-sh/nomad-deploy-result-action@v1
