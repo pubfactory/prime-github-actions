@@ -14,7 +14,7 @@ on:
         description: "Name of the job to deploy"
         type: string
       docker-tag:
-        reqired: false
+        required: false
         description: "docker tag to deploy"
         type: string
     secrets:
