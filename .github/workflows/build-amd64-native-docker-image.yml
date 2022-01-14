@@ -23,6 +23,9 @@ on:
           required: true
         GRAALVM_VERSION:
           required: true
+      outputs:
+        docker-tag:
+          value: ${{ jobs.build-native-image.outputs.docker-tag }}
 
 
 jobs:
@@ -74,12 +77,14 @@ jobs:
         - name: Maven build navite binary
           run: mvn -U clean package -DskipTests -Pnative
 
-        - name: Build docker image
+        - id: build-docker-image
+          name: Build docker image
           run: |
             git_hash=$(git rev-parse --short "$GITHUB_SHA")
             docker build -f src/main/docker/Dockerfile.native -t $GITHUB_REPOSITORY:$GITHUB_REF_NAME-latest -t $GITHUB_REPOSITORY:$GITHUB_REF_NAME-$git_hash .
             docker push $GITHUB_REPOSITORY:$GITHUB_REF_NAME-latest
             docker push $GITHUB_REPOSITORY:$GITHUB_REF_NAME-$git_hash
+            echo "::set-output name=docker-tag::$GITHUB_REF_NAME-$git_hash"
 
         - name: Notify Slack on Failure
           if: ${{ failure() }}
@@ -99,3 +104,6 @@ jobs:
             SLACK_USERNAME: 'GitBot'
             SLACK_COLOR: ${{ job.status }}
             SLACK_TITLE: 'Build Success'
+
+      outputs:
+        docker-tag: ${{ steps.build-docker-image.outputs.docker-tag }}
