@@ -20,6 +20,8 @@ on:
         required: true
       NOMAD_JOB_REPOSITORY:
         required: true
+      GIT_ACCESS_TOKEN:
+        required: true
 jobs:
 
   nomad-deploy:
