@@ -33,13 +33,13 @@ jobs:
 
     steps:
       - name: Checkout Nomad Jobs Repo
-        uses: actions/checkout@2.4.0
+        uses: actions/checkout@v2.4.0
         with:
           token: ${{ secrets.GIT_ACCESS_TOKEN }}
           repository: ${{ secrets.NOMAD_JOB_REPOSITORY }}
 
       - name: Deploy with Nomad
-        uses: qazz92/nomad-deploy@1.0.1
+        uses: qazz92/nomad-deploy-action@1.0.1
         with:
           token: ${{ secrets.NOMAD_TOKEN }}
           address: ${{ secrets.NOMAD_ADDRESS }}
