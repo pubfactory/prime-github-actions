@@ -28,10 +28,10 @@ jobs:
           touch /tmp/${{ inputs.job-name }}.json
           curl ${{ secrets.NOMAD_ADDRESS }}/v1/job/${{ inputs.job-name }} >> /tmp/${{ inputs.job-name }}.json
 
-      - run: cat ./${{ inputs.job-name}}.json
+      - run: cat /tmp/${{ inputs.job-name}}.json
 
       - name: Redeploy Job
-        run: curl --request POST --data /tmp/${{ inputs.job-name}}.json ${{ secrets.NOMAD_ADDRESS }}/v1/jobs
+        run: curl --request POST --data @/tmp/${{ inputs.job-name}}.json ${{ secrets.NOMAD_ADDRESS }}/v1/jobs
 
       - name: Check deployment result
         uses: let-sh/nomad-deploy-result-action@v1
