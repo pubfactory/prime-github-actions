@@ -24,6 +24,8 @@ on:
         required: true
       GIT_ACCESS_TOKEN:
         required: true
+      SLACK_WEBHOOK:
+        required: true
 jobs:
 
   nomad-deploy:
@@ -44,3 +46,22 @@ jobs:
       - name: Deploy tag ${{ inputs.docker-tag }}
         if: ${{ inputs.docker-tag }}
         run: nomad job run -address=${{ secrets.NOMAD_ADDRESS }} -var=docker-tag=${{ inputs.docker-tag }} ./${{ inputs.job-name }}.nomad
+
+      - name: Notify Slack on Failure
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: 'GitBot'
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_TITLE: 'Deployment Failure'
+
+      - name: Notify Slack on Success
+        if: ${{ success() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: 'prime-chatops'
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: 'GitBot'
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_TITLE: 'Deployment Successful'
