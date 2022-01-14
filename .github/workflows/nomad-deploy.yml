@@ -18,6 +18,8 @@ on:
         required: true
       NOMAD_TOKEN:
         required: true
+      NOMAD_JOB_REPOSITORY:
+        required: true
 jobs:
 
   nomad-deploy:
