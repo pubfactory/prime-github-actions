@@ -39,16 +39,14 @@ jobs:
           repository: ${{ secrets.NOMAD_JOB_REPOSITORY }}
 
       - name: Deploy with Nomad
-        uses: qazz92/nomad-deploy-action@1.0.1
-        with:
-          token: ${{ secrets.NOMAD_TOKEN }}
-          address: ${{ secrets.NOMAD_ADDRESS }}
-          job: ${{ inputs.job-name }}.nomad
-          config: ${{ secrets.LEVANT_CONFIG }}
+        run: |
+          curl ${{ secrets.NOMAD_ADDRESS }}/v1/job/${{ input.job-name }} -o ./${{ input.job-name }}.json
+          cat ./${{ input.job-name}}.json
+          curl --request POST --data ./${{ input.job-name}}.json ${{ secrets.NOMAD_ADDRESS }}/v1/jobs
 
       - name: Check deployment result
         uses: let-sh/nomad-deploy-result-action@v1
         with:
-          nomad-addr: ${{ secrets.NOMAD_ADNOMAD_ADDRESSDR }}
+          nomad-addr: ${{ secrets.NOMAD_ADDRESS }}
           nomad-token: ${{ secrets.NOMAD_TOKEN }}
           nomad-job-name: ${{ inputs.job-name }}
