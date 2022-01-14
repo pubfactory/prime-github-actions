@@ -54,7 +54,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: 'GitBot'
           SLACK_COLOR: ${{ job.status }}
-          SLACK_TITLE: 'Deployment Failure'
+          SLACK_TITLE: 'Deployment Failure: ${{ inputs.job-name }} - ${{ inputs.docker-tag }}'
 
       - name: Notify Slack on Success
         if: ${{ success() }}
@@ -64,4 +64,4 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: 'GitBot'
           SLACK_COLOR: ${{ job.status }}
-          SLACK_TITLE: 'Deployment Successful'
+          SLACK_TITLE: 'Deployment Successful: ${{ inputs.job-name }} - ${{ inputs.docker-tag }}'
