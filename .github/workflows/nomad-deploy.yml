@@ -12,6 +12,7 @@ on:
       job-name:
         required: true
         description: "Name of the job to deploy"
+        type: string
     secrets:
       NOMAD_TOKEN:
         required: true
