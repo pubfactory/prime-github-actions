@@ -18,11 +18,11 @@ on:
       NOMAD_ADDRESS:
         required: true
       NOMAD_JOB_REPOSITORY:
-        required: true;
+        required: true
       LEVANT_CONFIG:
-        required: true;
+        required: true
       GIT_ACCESS_TOKEN:
-        required: true;
+        required: true
 
 jobs:
 
