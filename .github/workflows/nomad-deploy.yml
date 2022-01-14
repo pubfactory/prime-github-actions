@@ -38,7 +38,7 @@ jobs:
           repository: ${{ secrets.NOMAD_JOB_REPOSITORY }}
 
       - name: Deploy default tag
-        if: ${{ inputs.docker-tag != '' }}
+        if: ${{ inputs.docker-tag == '' }}
         run: nomad job run -address=${{ secrets.NOMAD_ADDRESS }} ./${{ inputs.job-name }}.nomad
 
       - name: Deploy tag ${{ inputs.docker-tag }}
