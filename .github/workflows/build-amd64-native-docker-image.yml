@@ -84,7 +84,7 @@ jobs:
             docker build -f src/main/docker/Dockerfile.native -t $GITHUB_REPOSITORY:$GITHUB_REF_NAME-latest -t $GITHUB_REPOSITORY:$GITHUB_REF_NAME-$git_hash .
             docker push $GITHUB_REPOSITORY:$GITHUB_REF_NAME-latest
             docker push $GITHUB_REPOSITORY:$GITHUB_REF_NAME-$git_hash
-            echo "::set-output name=docker-tag::$GITHUB_REF_NAME-$git_hash"
+            echo "::set-output name=docker-tag::${GITHUB_REF_NAME}-${git_hash}"
 
         - name: Notify Slack on Failure
           if: ${{ failure() }}
