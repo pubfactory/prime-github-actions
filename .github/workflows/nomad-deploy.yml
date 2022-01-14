@@ -32,8 +32,9 @@ jobs:
     runs-on: [self-hosted, ubuntu]
 
     steps:
-      - name: Deploy with Nomad
-        run: |
+      - name: Get job definition
+        run:
+          touch ./${{ inputs.job-name }}.json
           curl ${{ secrets.NOMAD_ADDRESS }}/v1/job/${{ inputs.job-name }} -o ./${{ inputs.job-name }}.json
           cat ./${{ inputs.job-name}}.json
           curl --request POST --data ./${{ inputs.job-name}}.json ${{ secrets.NOMAD_ADDRESS }}/v1/jobs
