@@ -34,6 +34,9 @@ jobs:
 
       runs-on: ubuntu-latest
 
+      outputs:
+        docker-tag: ${{ steps.build-docker-image.outputs.docker-tag }}
+
       steps:
         - name: Set Git Branch
           if: github.event.action == 'upstream-job-success'
@@ -93,7 +96,7 @@ jobs:
             SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
             SLACK_USERNAME: 'GitBot'
             SLACK_COLOR: ${{ job.status }}
-            SLACK_TITLE: 'Build Failure'
+            SLACK_TITLE: 'Build Docker Image Failure'
 
         - name: Notify Slack on Success
           if: ${{ success() }}
@@ -103,7 +106,4 @@ jobs:
             SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
             SLACK_USERNAME: 'GitBot'
             SLACK_COLOR: ${{ job.status }}
-            SLACK_TITLE: 'Build Success'
-
-      outputs:
-        docker-tag: ${{ steps.build-docker-image.outputs.docker-tag }}
+            SLACK_TITLE: 'Build Docker Image Success'
