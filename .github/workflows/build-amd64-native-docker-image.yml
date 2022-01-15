@@ -96,7 +96,7 @@ jobs:
             SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
             SLACK_USERNAME: 'GitBot'
             SLACK_COLOR: ${{ job.status }}
-            SLACK_TITLE: 'Build Docker Image Failure'
+            SLACK_TITLE: 'Build Docker Image Failure ${{ env.GITHUB_REPOSITORY }}'
 
         - name: Notify Slack on Success
           if: ${{ success() }}
@@ -106,4 +106,4 @@ jobs:
             SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
             SLACK_USERNAME: 'GitBot'
             SLACK_COLOR: ${{ job.status }}
-            SLACK_TITLE: 'Build Docker Image Success'
+            SLACK_TITLE: 'Build Docker Image Success ${{ env.GITHUB_REPOSITORY }}'
