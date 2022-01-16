@@ -89,9 +89,8 @@ jobs:
             docker push $GITHUB_REPOSITORY:$GITHUB_REF_NAME-$git_hash
             echo "::set-output name=docker-tag::${GITHUB_REF_NAME}-${git_hash}"
 
-        - name: Send success message to slack
+        - name: Send ${{ job.status }} message to prime-chatops room
           uses: act10ns/slack@v1.5.0
-          if: ${{ success() }}
           with:
             status: ${{ job.status }}
             steps: ${{ toJson(steps) }}
@@ -99,7 +98,7 @@ jobs:
           env:
             SLACK_WEBHOOK_URL: ${{ secrets.SLACK_PRIME_ROOM_WEBHOOK }}
 
-        - name: Send ${{ job.status }} message to slack
+        - name: Send ${{ job.status }} message to prime room
           uses: act10ns/slack@v1.5.0
           if: ${{ failure() }}
           with:
