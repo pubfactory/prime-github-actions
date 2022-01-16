@@ -89,21 +89,10 @@ jobs:
             docker push $GITHUB_REPOSITORY:$GITHUB_REF_NAME-$git_hash
             echo "::set-output name=docker-tag::${GITHUB_REF_NAME}-${git_hash}"
 
-        - name: Notify Slack on Failure
-          if: ${{ failure() }}
-          uses: rtCamp/action-slack-notify@v2
+        - name: slack - GitHub Actions Slack integration
+          uses: act10ns/slack@v1.5.0
+          with:
+            status: ${{ job.status }}
+            steps: ${{ toJson(steps) }}
           env:
-            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-            SLACK_USERNAME: 'GitBot'
-            SLACK_COLOR: ${{ job.status }}
-            SLACK_TITLE: 'Build Docker Image Failure ${{ env.GITHUB_REPOSITORY }}'
-
-        - name: Notify Slack on Success
-          if: ${{ success() }}
-          uses: rtCamp/action-slack-notify@v2
-          env:
-            SLACK_CHANNEL: 'prime-chatops'
-            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-            SLACK_USERNAME: 'GitBot'
-            SLACK_COLOR: ${{ job.status }}
-            SLACK_TITLE: 'Build Docker Image Success ${{ env.GITHUB_REPOSITORY }}'
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_PRIME_ROOM_WEBHOOK }}
