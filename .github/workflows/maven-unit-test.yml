@@ -146,7 +146,7 @@ jobs:
           steps: ${{ toJson(steps) }}
           channel: '#prime-chatops'
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_PRIME_ROOM_WEBHOOK }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
       - name: Send ${{ job.status }} message to prime room
         uses: act10ns/slack@v1.5.0
@@ -155,7 +155,7 @@ jobs:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_PRIME_ROOM_WEBHOOK }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
     outputs:
       version-number: ${{ steps.maven.outputs.version-number }}
