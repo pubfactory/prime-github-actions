@@ -39,8 +39,6 @@ on:
         required: true
       JAVA_VERSION:
         required: true
-      SLACK_WEBHOOK_URL:
-        required: true
     outputs:
       version-number:
         description: "Maven version number of the project"
