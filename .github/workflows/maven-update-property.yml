@@ -58,7 +58,7 @@ jobs:
       - name: Update Maven Properties
         run: |
           echo "updating maven properties for dependencies that match com.pubfactory.prime"
-          mvn versions:update-properties -DallowMajorUpdates=${steps.update-rules.outputs.allow-major-updates} -allowMinorUpdates=${steps.update-rules.outputs.allow-minor-updates} -DallowSnapshots=${steps.update-rules.outputs.allow-snapshots} -Dincludes=com.pubfactory.prime
+          mvn versions:update-properties -DallowMajorUpdates=${{ steps.update-rules.outputs.allow-major-updates }} -allowMinorUpdates=${{ steps.update-rules.outputs.allow-minor-updates }} -DallowSnapshots=${{ steps.update-rules.outputs.allow-snapshots }} -Dincludes=com.pubfactory.prime
 
       - name: Commit (if it changed)
         id: commit
