@@ -8,15 +8,6 @@ name: Maven Update Property
 
 on:
   workflow_call:
-    inputs:
-      property:
-        description: "the maven property to update"
-        required: true
-        type: string
-      value:
-        description: "the value to set the property to"
-        required: true
-        type: string
     secrets:
       MAVEN_SETTINGS:
         required: true
@@ -26,16 +17,11 @@ on:
         required: true
       JAVA_VERSION:
         required: true
-    outputs:
-      property-updated:
-        description: "if the job updated the property"
-        value: ${{ jobs.update-property.outputs.property-updated }}
 
 jobs:
 
   update-property:
     runs-on: ubuntu-latest
-    if: ${{ inputs.value != '' && inputs.property != '' }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -54,10 +40,14 @@ jobs:
         env:
           MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
 
-      - name: Set Maven Property
+      - name: Determine Update Rules
         run: |
-          echo "updating maven proprety ${{ inputs.property }} to value ${{ inputs.value }}"
-          mvn versions:set-property -Dproperty=${{ inputs.property }} -DnewVersion=${{ inputs.value }}
+          echo "${{ toJson(github.event) }}
+
+      - name: Update Maven Properties
+        run: |
+          echo "updating maven properties for dependencies that match com.pubfactory.prime"
+          mvn versions:update-properties -DallowSnapshots=true -Dincludes=com.pubfactory.prime
 
       - name: Commit (if it changed)
         id: commit
@@ -70,6 +60,3 @@ jobs:
             git push
             echo "::set-output name=property-updated::true"
           fi
-
-    outputs:
-      property-updated: ${{ steps.commit.outputs.property-updated }}
