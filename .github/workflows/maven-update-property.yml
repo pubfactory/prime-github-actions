@@ -41,13 +41,25 @@ jobs:
           MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
 
       - name: Determine Update Rules
+        id: update-rules
         run: |
           echo "${{ toJson(github.event) }}"
+          if [[ ${{ env.GITHUB_REF_NAME == github.event.repository.default_branch }} ]]; then
+            echo "Default branches should allow major update, allow minor updates, and allow snapshots"
+            echo "::set-output name=allow-major-updates::true"
+            echo "::set-output name=allow-minor-updates::true"
+            echo "::set-output name=allow-snapshots::true"
+          else
+            echo "Non default branches are assumed to be release branches and should not allow major update, should allow minor updates, and should not allow snapshots"
+            echo "::set-output name=allow-major-updates::false"
+            echo "::set-output name=allow-minor-updates::true"
+            echo "::set-output name=allow-snapshots::false"
+          fi
 
       - name: Update Maven Properties
         run: |
           echo "updating maven properties for dependencies that match com.pubfactory.prime"
-          mvn versions:update-properties -DallowSnapshots=true -Dincludes=com.pubfactory.prime
+          mvn versions:update-properties -DallowMajorUpdates=${steps.update-rules.outputs.allow-major-updates} -allowMinorUpdates=${steps.update-rules.outputs.allow-minor-updates} -DallowSnapshots=${steps.update-rules.outputs.allow-snapshots} -Dincludes=com.pubfactory.prime
 
       - name: Commit (if it changed)
         id: commit
