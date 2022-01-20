@@ -32,7 +32,7 @@ jobs:
 
     build-native-image:
 
-      runs-on: [self-hosted, ubuntu]
+      runs-on: ubuntu-latest
 
       outputs:
         docker-tag: ${{ steps.build-docker-image.outputs.docker-tag }}
