@@ -47,15 +47,15 @@ jobs:
         - name: Checkout Repository
           uses: actions/checkout@v2
 
+        - name: Setup Maven
+            uses: stCarolas/setup-maven@v4.2
+
         - name: Set up JDK ${{ secrets.JAVA_VERSION }}
           uses: actions/setup-java@v2
           with:
             java-version: ${{ secrets.JAVA_VERSION }}
             distribution: ${{ secrets.JAVA_DISTRIBUTION }}
             cache: maven
-
-        - name: Setup Maven
-          uses: stCarolas/setup-maven@v4.2
 
         - name: Set up GraalVm
           uses: rinx/setup-graalvm-ce@v0.0.5
