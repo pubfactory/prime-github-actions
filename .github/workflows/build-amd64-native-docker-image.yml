@@ -79,8 +79,9 @@ jobs:
 
         - name: Maven build navite binary
           run: |
-          source /etc/environment
-          mvn -U clean package -DskipTests -Pnative
+            source /etc/environment
+            export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+            mvn -U clean package -DskipTests -Pnative
 
         - id: build-docker-image
           name: Build docker image
