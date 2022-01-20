@@ -44,6 +44,10 @@ jobs:
             echo "Recieved upstream-job-success message from ${{ github.event.client_payload.repository }} on branch ${{ github.event.client_payload.branch }}"
             echo "GITHUB_REF_NAME=${{ github.event.client_payload.branch }}" >> $GITHUB_ENV
 
+        - name: prepare
+          run: |
+            export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+
         - name: Checkout Repository
           uses: actions/checkout@v2
 
@@ -78,9 +82,7 @@ jobs:
               MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
 
         - name: Maven build navite binary
-          run: |
-            source /etc/environment
-            export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+          run:
             mvn -U clean package -DskipTests -Pnative
 
         - id: build-docker-image
