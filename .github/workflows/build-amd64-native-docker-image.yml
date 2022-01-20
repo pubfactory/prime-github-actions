@@ -54,7 +54,7 @@ jobs:
             distribution: ${{ secrets.JAVA_DISTRIBUTION }}
             cache: maven
 
-        - name: Set up GraalVm
+        - name: Set up GraalVM
           uses: rinx/setup-graalvm-ce@v0.0.5
           with:
             graalvm-version: ${{ secrets.GRAALVM_VERSION }}
@@ -78,7 +78,9 @@ jobs:
               MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
 
         - name: Maven build navite binary
-          run: mvn -U clean package -DskipTests -Pnative
+          run: |
+          source /etc/environment
+          mvn -U clean package -DskipTests -Pnative
 
         - id: build-docker-image
           name: Build docker image
