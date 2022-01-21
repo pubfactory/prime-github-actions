@@ -85,7 +85,7 @@ jobs:
             echo "::set-output name=docker-tag::${GITHUB_REF_NAME}-${git_hash}"
 
         - name: Send ${{ job.status }} message to prime-chatops room
-          uses: act10ns/slack@v1.5.0
+          uses: act10ns/slack@v1.5.1
           with:
             status: ${{ job.status }}
             steps: ${{ toJson(steps) }}
@@ -94,7 +94,7 @@ jobs:
             SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
         - name: Send ${{ job.status }} message to prime room
-          uses: act10ns/slack@v1.5.0
+          uses: act10ns/slack@v1.5.1
           if: ${{ failure() }}
           with:
             status: ${{ job.status }}
