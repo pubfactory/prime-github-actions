@@ -34,7 +34,7 @@ jobs:
         id: prepare
         run: |
           echo "::set-output name=date::$(date +'%Y-%m-%d')"
-          echo "::set-output name=test-environemnt::prime-${GITHUB_REF_NAME,,}-vpc"
+          echo "::set-output name=test-environment::prime-${GITHUB_REF_NAME,,}-vpc"
     outputs:
       date: ${{ steps.prepare.outputs.date }}
       test-environment: ${{ steps.prepare.outputs.test-environment }}
@@ -63,7 +63,7 @@ jobs:
 
       - name: Run Artillery Test
         run: |
-          /home/node/artillery/bin/artillery run -o report.json -e ${{ needs.prepare.outputs.test-environment }} ${{ inputs.load-test-folder }}/${{ inputs.load-test-file }}
+          /home/node/artillery/bin/artillery run -o report.json -e ${{ needs.prepare.outputs.test-environment }} ${{ inputs.load-test-folder }}${{ inputs.load-test-file }}
           /home/node/artillery/bin/artillery report report.json
 
       - name: Copy html report
