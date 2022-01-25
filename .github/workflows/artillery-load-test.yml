@@ -42,7 +42,6 @@ jobs:
   load-test:
     needs: [prepare]
     runs-on: [self-hosted, ubuntu]
-    container: artilleryio/artillery:latest
 
     steps:
       - name: Checkout Repo
@@ -65,8 +64,8 @@ jobs:
         run: |
           cd ${{ inputs.load-test-folder }}
           npm install
-          /home/node/artillery/bin/artillery run -o report.json -e ${{ needs.prepare.outputs.test-environment }} ${{ inputs.load-test-file }}
-          /home/node/artillery/bin/artillery report report.json
+          artillery run -o report.json -e ${{ needs.prepare.outputs.test-environment }} ${{ inputs.load-test-file }}
+          artillery report report.json
 
       - name: Copy html report
         run: |
