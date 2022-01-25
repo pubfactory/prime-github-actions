@@ -55,8 +55,8 @@ jobs:
           fi
 
       - name: Run Artillery Test
-        working-directory: ${{ inputs.load-test-folder }}
         run: |
+          cd ${{ inputs.load-test-folder }}
           npm install
           artillery run -o report.json -e ${{ steps.prepare.outputs.test-environment }}
           artillery report report.json
@@ -67,6 +67,7 @@ jobs:
           if [[ ${{ inputs.incremental-run }} ]]; then
             cp ${{ inputs.load-test-folder }}/report.json.html ${{ inputs.load-test-folder }} load-test-results/$GITHUB_REF_NAME/${{ steps.prepare.outputs.date }}/report.html
           fi
+          cd load-test-results/$GITHUB_REF_NAME
           if [[ `git status --porcelain` ]]; then
             git config --global user.name 'pubfactory-service'
             git config --global user.email 'noreply@pubfactory.com'
