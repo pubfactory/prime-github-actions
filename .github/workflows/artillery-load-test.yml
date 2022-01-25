@@ -23,8 +23,6 @@ on:
         default: "smoketest.yml"
         type: string
     secrets:
-      GIT_ACCESS_TOKEN:
-        required: true
       SLACK_WEBHOOK:
         required: true
 jobs:
