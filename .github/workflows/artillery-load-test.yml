@@ -63,6 +63,7 @@ jobs:
       - name: Run Artillery Test
         run: |
           cd ${{ inputs.load-test-folder }}
+          npm install -g artillery@latest
           npm install
           artillery run -o report.json -e ${{ needs.prepare.outputs.test-environment }} ${{ inputs.load-test-file }}
           artillery report report.json
