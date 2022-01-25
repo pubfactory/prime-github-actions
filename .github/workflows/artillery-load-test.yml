@@ -62,8 +62,8 @@ jobs:
           fi
 
       - name: Run Artillery Test
-        working-directory: ${{ inputs.load-test-folder }}
         run: |
+          cd ${{ inputs.load-test-folder }}
           npm install
           /home/node/artillery/bin/artillery run -o report.json -e ${{ needs.prepare.outputs.test-environment }} ${{ inputs.load-test-file }}
           /home/node/artillery/bin/artillery report report.json
