@@ -27,10 +27,21 @@ on:
         required: true
 jobs:
 
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Preparing
+        id: prepare
+        run: |
+          echo "::set-output name=date::$(date +'%Y-%m-%d')"
+          echo "::set-output name=test-environemnt::prime-${GITHUB_REF_NAME,,}-vpc"
+    outputs:
+      date: ${{ steps.prepare.outputs.date }}
+      test-environment: ${{ steps.prepare.outputs.test-environment }}
+
   load-test:
-
+    needs: [prepare]
     runs-on: [self-hosted, ubuntu]
-
     container: artilleryio/artillery:latest
 
     steps:
@@ -43,29 +54,23 @@ jobs:
           ref: load-test-results
           path: load-test-results
 
-      - name: Preparing
-        id: prepare
-        run: |
-          echo "::set-output name=date::$(date +'%Y-%m-%d')"
-          echo "::set-output name=test-environemnt::prime-${GITHUB_REF_NAME,,}-vpc"
-
       - name: Make Report Folders
         run: |
           mkdir -p load-test-results/$GITHUB_REF_NAME
           if [[ ${{ inputs.incremental-run }} ]]; then
-            mkdir -p load-test-results/$GITHUB_REF_NAME/${{ steps.prepare.outputs.date }}/
+            mkdir -p load-test-results/$GITHUB_REF_NAME/${{ needs.prepare.outputs.date }}/
           fi
 
       - name: Run Artillery Test
         run: |
-          /home/node/artillery/bin/artillery run -o report.json -e ${{ steps.prepare.outputs.test-environment }} ${{ inputs.load-test-folder }}/${{ inputs.load-test-file }}
+          /home/node/artillery/bin/artillery run -o report.json -e ${{ needs.prepare.outputs.test-environment }} ${{ inputs.load-test-folder }}/${{ inputs.load-test-file }}
           /home/node/artillery/bin/artillery report report.json
 
       - name: Copy html report
         run: |
           cp report.json.html ${{ inputs.load-test-folder }} load-test-results/$GITHUB_REF_NAME/report.html
           if [[ ${{ inputs.incremental-run }} ]]; then
-            cp report.json.html ${{ inputs.load-test-folder }} load-test-results/$GITHUB_REF_NAME/${{ steps.prepare.outputs.date }}/report.html
+            cp report.json.html ${{ inputs.load-test-folder }} load-test-results/$GITHUB_REF_NAME/${{ needs.prepare.outputs.date }}/report.html
           fi
           cd load-test-results/$GITHUB_REF_NAME
           if [[ `git status --porcelain` ]]; then
