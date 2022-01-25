@@ -58,7 +58,7 @@ jobs:
         run: |
           cd ${{ inputs.load-test-folder }}
           npm install
-          artillery run -o report.json -e ${{ steps.prepare.outputs.test-environment }}
+          artillery run -o report.json -e ${{ steps.prepare.outputs.test-environment }} ${{ inputs.load-test-file }}
           artillery report report.json
 
       - name: Copy html report
