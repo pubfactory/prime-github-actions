@@ -28,7 +28,7 @@ on:
 jobs:
 
   load-test:
-    if: ${{ hashFiles(format('{0}{1}', inputs.load-test-folder, inputs.load-test-file)) != '' }}
+    if: hashFiles(format('{0}{1}', inputs.load-test-folder, inputs.load-test-file)) != ''
     runs-on: [self-hosted, ubuntu]
 
     steps:
