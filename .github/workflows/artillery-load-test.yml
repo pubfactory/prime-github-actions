@@ -31,20 +31,22 @@ jobs:
     runs-on: ubuntu-latest
     if: hashFiles('${{ format('{0}{1}', inputs.load-test-folder, inputs.load-test-file) }}') != ''
     steps:
-      - name: Preparing
-        id: prepare
-        run: |
-          echo "::set-output name=date::$(date +'%Y-%m-%d')"
-          echo "::set-output name=test-environment::prime-${GITHUB_REF_NAME,,}-vpc"
+
     outputs:
       date: ${{ steps.prepare.outputs.date }}
       test-environment: ${{ steps.prepare.outputs.test-environment }}
 
   load-test:
-    needs: [prepare]
+    if: hashFiles('${{ format('{0}{1}', inputs.load-test-folder, inputs.load-test-file) }}') != ''
     runs-on: [self-hosted, ubuntu]
 
     steps:
+      - name: Preparing
+        id: prepare
+        run: |
+          echo "::set-output name=date::$(date +'%Y-%m-%d')"
+          echo "::set-output name=test-environment::prime-${GITHUB_REF_NAME,,}-vpc"
+
       - name: Checkout Repo
         uses: actions/checkout@v2.4.0
 
@@ -66,7 +68,7 @@ jobs:
       - name: Make incremental report folder
         if:  ${{ inputs.incremental-run }}
         run: |
-          mkdir -p load-test-results/$GITHUB_REF_NAME/${{ needs.prepare.outputs.date }}/
+          mkdir -p load-test-results/$GITHUB_REF_NAME/${{ steps.prepare.outputs.date }}/
 
       - name: Run Artillery Test
         run: |
@@ -74,7 +76,7 @@ jobs:
           npm install -g artillery@latest
           npm install -g artillery-plugin-expect@latest
           npm install
-          artillery run -o report.json -e ${{ needs.prepare.outputs.test-environment }} ${{ inputs.load-test-file }}
+          artillery run -o report.json -e ${{ steps.prepare.outputs.test-environment }} ${{ inputs.load-test-file }}
           artillery report report.json
 
       - name: Copy report
@@ -84,7 +86,7 @@ jobs:
       - name: Copy incremental report
         if: ${{ inputs.incremental-run }}
         run: |
-          cp ${{ inputs.load-test-folder }}report.json.html load-test-results/$GITHUB_REF_NAME/${{ needs.prepare.outputs.date }}/report.html
+          cp ${{ inputs.load-test-folder }}report.json.html load-test-results/$GITHUB_REF_NAME/${{ steps.prepare.outputs.date }}/report.html
 
       - name: Commit reports
         run: |
