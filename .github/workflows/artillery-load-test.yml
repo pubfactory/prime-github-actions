@@ -27,15 +27,6 @@ on:
         required: true
 jobs:
 
-  prepare:
-    runs-on: ubuntu-latest
-    if: hashFiles('${{ format('{0}{1}', inputs.load-test-folder, inputs.load-test-file) }}') != ''
-    steps:
-
-    outputs:
-      date: ${{ steps.prepare.outputs.date }}
-      test-environment: ${{ steps.prepare.outputs.test-environment }}
-
   load-test:
     if: hashFiles('${{ format('{0}{1}', inputs.load-test-folder, inputs.load-test-file) }}') != ''
     runs-on: [self-hosted, ubuntu]
