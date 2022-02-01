@@ -28,7 +28,6 @@ on:
 jobs:
 
   load-test:
-    if: hashFiles('${{ format('{0}{1}', inputs.load-test-folder, inputs.load-test-file }}')) != ''
     runs-on: [self-hosted, ubuntu]
 
     steps:
@@ -62,6 +61,7 @@ jobs:
           mkdir -p load-test-results/$GITHUB_REF_NAME/${{ steps.prepare.outputs.date }}/
 
       - name: Run Artillery Test
+        if: ${{ hashFiles(format('{0}{1}', inputs.load-test-folder, inputs.load-test-file)) != '' }}
         run: |
           cd ${{ inputs.load-test-folder }}
           npm install -g artillery@latest
@@ -71,11 +71,12 @@ jobs:
           artillery report report.json
 
       - name: Copy report
+        if: ${{ hashFiles(format('{0}report.json', inputs.load-test-folder) != '' }}
         run: |
           cp ${{ inputs.load-test-folder }}report.json.html load-test-results/$GITHUB_REF_NAME/report.html
 
       - name: Copy incremental report
-        if: ${{ inputs.incremental-run }}
+        if: ${{ inputs.incremental-run && hashFiles(format('{0}report.json', inputs.load-test-folder) != '' }}
         run: |
           cp ${{ inputs.load-test-folder }}report.json.html load-test-results/$GITHUB_REF_NAME/${{ steps.prepare.outputs.date }}/report.html
 
