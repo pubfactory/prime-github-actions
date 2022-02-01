@@ -37,7 +37,7 @@ jobs:
         run: |
           echo "::set-output name=date::$(date +'%Y-%m-%d')"
           echo "::set-output name=test-environment::prime-${GITHUB_REF_NAME,,}-vpc"
-          echo "hashFiles('${{ format('{0}{1}', inputs.load-test-folder, inputs.load-test-file) }}')"
+          echo "${{ hashFiles('format('{0}{1}', inputs.load-test-folder, inputs.load-test-file)') }}"
 
       - name: Checkout Repo
         uses: actions/checkout@v2.4.0
