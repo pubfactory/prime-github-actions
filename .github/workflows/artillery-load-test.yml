@@ -62,9 +62,11 @@ jobs:
       - name: Make Report Folders
         run: |
           mkdir -p load-test-results/$GITHUB_REF_NAME
-          if [[ ${{ inputs.incremental-run }} ]]; then
-            mkdir -p load-test-results/$GITHUB_REF_NAME/${{ needs.prepare.outputs.date }}/
-          fi
+
+      - name: Make incremental report folder
+        if:  ${{ inputs.incremental-run }}
+        run: |
+          mkdir -p load-test-results/$GITHUB_REF_NAME/${{ needs.prepare.outputs.date }}/
 
       - name: Run Artillery Test
         run: |
@@ -74,12 +76,17 @@ jobs:
           artillery run -o report.json -e ${{ needs.prepare.outputs.test-environment }} ${{ inputs.load-test-file }}
           artillery report report.json
 
-      - name: Copy html report
+      - name: Copy report
         run: |
           cp ${{ inputs.load-test-folder }}report.json.html load-test-results/$GITHUB_REF_NAME/report.html
-          if [[ ${{ inputs.incremental-run }} ]]; then
-            cp ${{ inputs.load-test-folder }}report.json.html load-test-results/$GITHUB_REF_NAME/${{ needs.prepare.outputs.date }}/report.html
-          fi
+
+      - name: Copy incremental report
+        if: ${{ inputs.incremental-run }}
+        run: |
+          cp ${{ inputs.load-test-folder }}report.json.html load-test-results/$GITHUB_REF_NAME/${{ needs.prepare.outputs.date }}/report.html
+
+      - name: Commit reports
+        run: |
           cd load-test-results/$GITHUB_REF_NAME
           if [[ `git status --porcelain` ]]; then
             git config --global user.name 'pubfactory-service'
