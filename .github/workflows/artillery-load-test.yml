@@ -72,6 +72,7 @@ jobs:
         run: |
           cd ${{ inputs.load-test-folder }}
           npm install -g artillery@latest
+          npm install -g artillery-plugin-expect@latest
           npm install
           artillery run -o report.json -e ${{ needs.prepare.outputs.test-environment }} ${{ inputs.load-test-file }}
           artillery report report.json
