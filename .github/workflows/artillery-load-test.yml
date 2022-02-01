@@ -71,12 +71,12 @@ jobs:
           artillery report report.json
 
       - name: Copy report
-        if: ${{ hashFiles(format('{0}report.json', inputs.load-test-folder) != '' }}
+        if: ${{ hashFiles(format('{0}report.json', inputs.load-test-folder)) != '' }}
         run: |
           cp ${{ inputs.load-test-folder }}report.json.html load-test-results/$GITHUB_REF_NAME/report.html
 
       - name: Copy incremental report
-        if: ${{ inputs.incremental-run && hashFiles(format('{0}report.json', inputs.load-test-folder) != '' }}
+        if: ${{ inputs.incremental-run && hashFiles(format('{0}report.json', inputs.load-test-folder)) != '' }}
         run: |
           cp ${{ inputs.load-test-folder }}report.json.html load-test-results/$GITHUB_REF_NAME/${{ steps.prepare.outputs.date }}/report.html
 
