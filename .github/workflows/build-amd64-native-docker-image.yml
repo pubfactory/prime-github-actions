@@ -60,11 +60,11 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-        - name: Set up GraalVm
-          uses: DeLaGuardo/setup-graalvm@5.0
+        - name: Set up GraalVM
+          uses: rinx/setup-graalvm-ce@v0.0.5
           with:
-            graalvm: ${{ secrets.GRAALVM_VERSION }}
-            java: java${{ secrets.JAVA_VERSION }}
+            graalvm-version: ${{ secrets.GRAALVM_VERSION }}
+            java-version: java${{ secrets.JAVA_VERSION }}
 
         - name: Set up Docker Buildx
           id: buildx
