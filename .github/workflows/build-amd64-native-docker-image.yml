@@ -61,11 +61,11 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
         - name: Set up GraalVM
-          uses: rinx/setup-graalvm-ce@v0.0.5
+          uses: graalvm/setup-graalvm@v1
           with:
-            graalvm-version: ${{ secrets.GRAALVM_VERSION }}
-            java-version: java${{ secrets.JAVA_VERSION }}
-
+            java-version: ${{ secrets.JAVA_VERSION }}
+            components: 'native-image'
+            
         - name: Set up Docker Buildx
           id: buildx
           uses: docker/setup-buildx-action@v1
