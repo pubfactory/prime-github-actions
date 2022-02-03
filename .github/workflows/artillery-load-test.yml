@@ -73,11 +73,13 @@ jobs:
       - name: Copy report
         if: ${{ hashFiles(format('{0}report.json', inputs.load-test-folder)) != '' }}
         run: |
+          cp ${{ inputs.load-test-folder }}report.json load-test-results/$GITHUB_REF_NAME/report.json
           cp ${{ inputs.load-test-folder }}report.json.html load-test-results/$GITHUB_REF_NAME/report.html
 
       - name: Copy incremental report
         if: ${{ inputs.incremental-run && hashFiles(format('{0}report.json', inputs.load-test-folder)) != '' }}
         run: |
+          cp ${{ inputs.load-test-folder }}report.json load-test-results/$GITHUB_REF_NAME/${{ steps.prepare.outputs.date }}/report.json
           cp ${{ inputs.load-test-folder }}report.json.html load-test-results/$GITHUB_REF_NAME/${{ steps.prepare.outputs.date }}/report.html
 
       - name: Commit reports
