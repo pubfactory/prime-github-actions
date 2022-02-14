@@ -45,7 +45,7 @@ jobs:
 
       - name: Deploy tag ${{ inputs.docker-tag }}
         if: ${{ inputs.docker-tag }}
-        run: nomad job run -address=${{ secrets.NOMAD_ADDRESS }} -var=docker-tag=${{ inputs.docker-tag }} ./${{ inputs.job-name }}.nomad
+        run: nomad job run -address=${{ secrets.NOMAD_ADDRESS }} -var=docker-tag=${{ inputs.docker-tag }} ./root/${{ inputs.job-name }}.nomad
 
       - name: Send ${{ job.status }} message to prime-chatops room
         uses: act10ns/slack@v1.5.1
