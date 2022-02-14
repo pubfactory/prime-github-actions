@@ -38,16 +38,10 @@ jobs:
         with:
           token: ${{ secrets.GIT_ACCESS_TOKEN }}
           repository: ${{ secrets.NOMAD_JOB_REPOSITORY }}
-          
-      - name: Show working directory
-        run: pwd
-      
-      - name: Show directory contents
-        run: ls -la
 
       - name: Deploy default tag
         if: ${{ inputs.docker-tag == '' }}
-        run: nomad job run -address=${{ secrets.NOMAD_ADDRESS }} ./${{ inputs.job-name }}.nomad
+        run: nomad job run -address=${{ secrets.NOMAD_ADDRESS }} ./root/${{ inputs.job-name }}.nomad
 
       - name: Deploy tag ${{ inputs.docker-tag }}
         if: ${{ inputs.docker-tag }}
