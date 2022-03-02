@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - name: Checkout Nomad Jobs Repo
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
         with:
           token: ${{ secrets.GIT_ACCESS_TOKEN }}
           repository: ${{ secrets.NOMAD_JOB_REPOSITORY }}
