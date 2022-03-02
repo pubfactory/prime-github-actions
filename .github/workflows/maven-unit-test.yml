@@ -58,11 +58,11 @@ jobs:
           echo "GITHUB_REF_NAME=${{ github.event.client_payload.branch }}" >> $GITHUB_ENV
 
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Checkout badges branch to a badges directory nested inside first checkout
         if: ${{ inputs.create-jacoco-badge }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: badges
           path: badges

@@ -38,10 +38,10 @@ jobs:
           echo "::set-output name=test-environment::prime-${GITHUB_REF_NAME,,}-vpc"
 
       - name: Checkout Repo
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Checkout load-test-results branch to a loadtest directory nested inside first checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: load-test-results
           path: load-test-results
