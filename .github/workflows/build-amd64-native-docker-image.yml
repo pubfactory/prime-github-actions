@@ -86,7 +86,7 @@ jobs:
           name: Build docker image
           run: |
             git_hash=$(git rev-parse --short "$GITHUB_SHA")
-            docker build -f src/main/docker/Dockerfile.native -t $GITHUB_REPOSITORY:$GITHUB_REF_NAME-latest -t $GITHUB_REPOSITORY:$GITHUB_REF_NAME-$git_hash .
+            docker build -f src/main/docker/Dockerfile.native -t $GITHUB_REPOSITORY:$GITHUB_REF_NAME-latest -t $GITHUB_REPOSITORY:$GITHUB_REF_NAME-$git_hash-$GITHUB_RUN_ID .
             docker push $GITHUB_REPOSITORY:$GITHUB_REF_NAME-latest
             docker push $GITHUB_REPOSITORY:$GITHUB_REF_NAME-$git_hash-$GITHUB_RUN_ID
             echo "::set-output name=docker-tag::${GITHUB_REF_NAME}-${git_hash}-$GITHUB_RUN_ID"
