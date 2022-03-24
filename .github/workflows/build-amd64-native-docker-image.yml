@@ -67,6 +67,11 @@ jobs:
             java-version: ${{ secrets.JAVA_VERSION }}
             components: 'native-image'
 
+        - name: Set up Maven
+          uses: stCarolas/setup-maven@v4.3
+          with:
+            maven-version: 3.8.5
+
         - name: Override maven settings.xml
           run: |
               echo $MAVEN_SETTINGS > ~/.m2/settings.xml
