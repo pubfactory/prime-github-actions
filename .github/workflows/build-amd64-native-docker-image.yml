@@ -76,7 +76,6 @@ jobs:
 
         - name: Maven build native binary
           run: |
-            mvn --version
             mvn -U clean package -DskipTests -Pnative
 
         - id: build-docker-image
