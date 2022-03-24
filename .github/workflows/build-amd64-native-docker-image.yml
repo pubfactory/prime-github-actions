@@ -81,7 +81,7 @@ jobs:
               MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
 
         - name: Maven build native binary
-          run:
+          run: |
             mvn --version
             mvn -U clean package -DskipTests -Pnative
 
