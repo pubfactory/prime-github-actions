@@ -66,6 +66,7 @@ jobs:
             version: latest
             java-version: ${{ secrets.JAVA_VERSION }}
             components: 'native-image'
+            set-java-home: 'false' 
 
         - name: Set up Maven
           uses: stCarolas/setup-maven@v4.3
