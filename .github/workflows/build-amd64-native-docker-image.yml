@@ -76,7 +76,7 @@ jobs:
 
         - name: Maven build native binary
           run: |
-            mvn -U clean package -DskipTests -Pnative -Dquarkus.native.native-image-xmx=6g
+            mvn -U clean package -DskipTests -Pnative -Dquarkus.native.native-image-xmx=7g
 
         - id: build-docker-image
           name: Build docker image
