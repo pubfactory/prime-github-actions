@@ -66,6 +66,7 @@ jobs:
             version: latest
             java-version: ${{ secrets.JAVA_VERSION }}
             components: 'native-image'
+            native-image-musl: 'true'
 
         - name: Override maven settings.xml
           run: |
