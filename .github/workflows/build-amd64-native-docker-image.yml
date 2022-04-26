@@ -22,7 +22,7 @@ on:
         JAVA_VERSION:
           required: true
         GRAALVM_VERSION:
-          required: true
+          required: false
       outputs:
         docker-tag:
           value: ${{ jobs.build-native-image.outputs.docker-tag }}
@@ -59,13 +59,6 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
-        - name: Set up GraalVM
-          uses: graalvm/setup-graalvm@v1
-          with:
-            version: latest
-            java-version: ${{ secrets.JAVA_VERSION }}
-            components: 'native-image'
 
         - name: Override maven settings.xml
           run: |
