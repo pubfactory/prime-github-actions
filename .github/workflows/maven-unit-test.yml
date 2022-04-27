@@ -96,9 +96,11 @@ jobs:
         run: |
           echo "::set-output name=version-number::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)"
           if [[ ${{ inputs.push-to-nexus }} ]]; then
+            echo "running unit tests and deploying to nexus"
             mvn -B -U clean verify package deploy
           fi
-          if [[ ${{ !inputs.push-to-nexus }} ]]; then
+          if [[ ${{ inputs.push-to-nexus }} != 'true' ]]; then
+            echo "running unit tests only"
             mvn -B -U clean verify
           fi
 
