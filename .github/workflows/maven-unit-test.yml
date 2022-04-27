@@ -126,7 +126,7 @@ jobs:
         run: |
           mkdir -p badges/$GITHUB_REF_NAME
           cp -rf badges_dir/* badges/$GITHUB_REF_NAME/.
-          if [[ ${{ inputs.commit-jacoco-badge }} ]]; then
+          if [[ ${{ inputs.commit-jacoco-badge }}  == 'true' ]]; then
             cd badges/$GITHUB_REF_NAME
             if [[ `git status --porcelain` ]]; then
               git config --global user.name 'pubfactory-service'
