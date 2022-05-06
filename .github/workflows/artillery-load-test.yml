@@ -67,7 +67,7 @@ jobs:
           npm install -g artillery@latest
           npm install -g artillery-plugin-expect@latest
           npm install
-          artillery run -o report.json -e ${{ steps.prepare.outputs.test-environment }} ${{ inputs.load-test-file }}
+          artillery run -o report.json -e ${{ steps.prepare.outputs.test-environment }} ${{ inputs.load-test-file }} --insecure
           artillery report report.json
 
       - name: Copy report
