@@ -29,6 +29,7 @@ jobs:
 
   load-test:
     runs-on: [self-hosted, ubuntu]
+    timeout-minutes: 15
 
     steps:
       - name: Preparing

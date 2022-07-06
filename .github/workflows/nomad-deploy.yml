@@ -31,6 +31,7 @@ jobs:
   nomad-deploy:
 
     runs-on: [self-hosted, ubuntu]
+    timeout-minutes: 20
 
     steps:
       - name: Checkout Nomad Jobs Repo

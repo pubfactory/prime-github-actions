@@ -33,6 +33,7 @@ jobs:
     build-native-image:
 
       runs-on: [self-hosted, ubuntu]
+      timeout-minutes: 60
 
       outputs:
         docker-tag: ${{ steps.build-docker-image.outputs.docker-tag }}
