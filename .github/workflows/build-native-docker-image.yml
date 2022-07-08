@@ -4,7 +4,7 @@
 # By: JGF
 ############################################################################################
 
-name: Build AMD64 Native Image
+name: Build Native Image
 
 on:
     workflow_call:
