@@ -81,8 +81,8 @@ jobs:
             evnLatestTag=$GITHUB_REF_NAME-latest
             gitHashTag=$GITHUB_REF_NAME-$git_hash-$GITHUB_RUN_ID
             mvn -U clean package -Pnative -DskipTests -Dquarkus.container-image.tag=$evnLatestTag -Dquarkus.container-image.additional-tags=$gitHashTag
-            docker push $evnLatestTag
-            docker push $gitHashTag
+            docker push $GITHUB_REPOSITORY:$evnLatestTag
+            docker push $GITHUB_REPOSITORY:$gitHashTag
             echo "::set-output name=docker-tag::${gitHashTag}"
 
         - name: Send ${{ job.status }} message to prime-chatops room
