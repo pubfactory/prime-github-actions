@@ -4,7 +4,7 @@
 # By: JGF
 ############################################################################################
 
-name: Build Native Image
+name: Build Native Image ARM64
 
 on:
     workflow_call:
