@@ -1,0 +1,104 @@
+############################################################################################
+# Workflow that checks out code, builds, and pushes a native docker image
+#
+# By: JGF
+############################################################################################
+
+name: Build Native Image
+
+on:
+    workflow_call:
+      secrets:
+        MAVEN_SETTINGS:
+          required: true
+        DOCKERHUB_USERNAME:
+          required: true
+        DOCKERHUB_PASSWORD:
+          required: true
+        SLACK_WEBHOOK:
+          required: true
+        JAVA_DISTRIBUTION:
+          required: true
+        JAVA_VERSION:
+          required: true
+        GRAALVM_VERSION:
+          required: false
+      outputs:
+        docker-tag:
+          value: ${{ jobs.build-native-image.outputs.docker-tag }}
+
+
+jobs:
+
+    build-native-image:
+
+      runs-on: [self-hosted, ubuntu]
+      timeout-minutes: 60
+
+      outputs:
+        docker-tag: ${{ steps.build-docker-image.outputs.docker-tag }}
+
+      steps:
+        - name: Set Git Branch
+          if: github.event.action == 'upstream-job-success'
+          run: |
+            echo "Recieved upstream-job-success message from ${{ github.event.client_payload.repository }} on branch ${{ github.event.client_payload.branch }}"
+            echo "GITHUB_REF_NAME=${{ github.event.client_payload.branch }}" >> $GITHUB_ENV
+
+        - name: Checkout Repository
+          uses: actions/checkout@v3
+
+        - name: Set up JDK ${{ secrets.JAVA_VERSION }}
+          uses: actions/setup-java@v3.4.0
+          with:
+            java-version: ${{ secrets.JAVA_VERSION }}
+            distribution: ${{ secrets.JAVA_DISTRIBUTION }}
+            cache: maven
+
+        - name: Set up QEMU
+          uses: docker/setup-qemu-action@v2
+
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v2
+
+        - name: Log into docker
+          uses: docker/login-action@v2
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+        - name: Override maven settings.xml
+          run: |
+              echo $MAVEN_SETTINGS > ~/.m2/settings.xml
+          shell: bash
+          env:
+              MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
+
+        - id: build-docker-image
+          name: Maven build native binary
+          run: |
+            git_hash=$(git rev-parse --short "$GITHUB_SHA")
+            evnLatestTag=$GITHUB_REF_NAME-latest
+            gitHashTag=$GITHUB_REF_NAME-$git_hash-$GITHUB_RUN_ID
+            mvn clean package -Pnative -DskipTests -Dquarkus.container-image.tag=dev-latest -Dquarkus.container-image.build=true -Dquarkus.native.builder-image=quay.io/quarkus/ubi-quarkus-mandrel:22.1-java11-arm64 -Dquarkus.native.container-runtime-options=--platform=linux/arm64 -Dquarkus.docker.buildx.platform=linux/arm64
+            docker push $GITHUB_REPOSITORY:$evnLatestTag
+            docker push $GITHUB_REPOSITORY:$gitHashTag
+            echo "::set-output name=docker-tag::${gitHashTag}"
+
+        - name: Send ${{ job.status }} message to prime-chatops room
+          uses: act10ns/slack@v1.6.0
+          with:
+            status: ${{ job.status }}
+            steps: ${{ toJson(steps) }}
+            channel: '#prime-chatops'
+          env:
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+
+        - name: Send ${{ job.status }} message to prime room
+          uses: act10ns/slack@v1.6.0
+          if: ${{ failure() }}
+          with:
+            status: ${{ job.status }}
+            steps: ${{ toJson(steps) }}
+          env:
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
