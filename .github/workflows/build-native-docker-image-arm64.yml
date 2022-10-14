@@ -83,7 +83,7 @@ jobs:
             mvn clean package -Pnative -DskipTests -Dquarkus.container-image.tag=dev-latest -Dquarkus.container-image.build=true -Dquarkus.native.builder-image=quay.io/quarkus/ubi-quarkus-mandrel:22.1-java11-arm64 -Dquarkus.native.container-runtime-options=--platform=linux/arm64 -Dquarkus.docker.buildx.platform=linux/arm64
             docker push $GITHUB_REPOSITORY:$evnLatestTag
             docker push $GITHUB_REPOSITORY:$gitHashTag
-            echo "::set-output name=docker-tag::${gitHashTag}"
+            echo "docker-tag=${gitHashTag}" >> $GITHUB_OUTPUT
 
         - name: Send ${{ job.status }} message to prime-chatops room
           uses: act10ns/slack@v1.6.0

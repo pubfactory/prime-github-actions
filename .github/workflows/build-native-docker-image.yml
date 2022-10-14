@@ -83,7 +83,7 @@ jobs:
             mvn -U clean package -Pnative -DskipTests -Dquarkus.container-image.tag=$evnLatestTag -Dquarkus.container-image.additional-tags=$gitHashTag -Dquarkus.container-image.build=true
             docker push $GITHUB_REPOSITORY:$evnLatestTag
             docker push $GITHUB_REPOSITORY:$gitHashTag
-            echo "::set-output name=docker-tag::${gitHashTag}"
+            echo "docker-tag=${gitHashTag}" >> $GITHUB_OUTPUT
 
         - name: Send ${{ job.status }} message to prime-chatops room
           uses: act10ns/slack@v1.6.0

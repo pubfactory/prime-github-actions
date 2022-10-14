@@ -35,8 +35,8 @@ jobs:
       - name: Preparing
         id: prepare
         run: |
-          echo "::set-output name=date::$(date +'%Y-%m-%d')"
-          echo "::set-output name=test-environment::prime-${GITHUB_REF_NAME,,}-vpc"
+          echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+          echo "test-environment=prime-${GITHUB_REF_NAME,,}-vpc" >> $GITHUB_OUTPUT
 
       - name: Checkout Repo
         uses: actions/checkout@v3
