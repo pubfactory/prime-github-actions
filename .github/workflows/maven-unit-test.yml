@@ -148,8 +148,7 @@ jobs:
           name: jacoco-report
           path: |
             target/jacoco-report/*
-            */target/jacoco-report/*
-            */jacoco-aggregate/*
+            */target/site/jacoco-aggregate/*
             badges_dir/*
 
       - name: Send ${{ job.status }} message to prime-chatops room
