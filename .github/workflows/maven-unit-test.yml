@@ -152,7 +152,7 @@ jobs:
             badges_dir/*
 
       - name: Send ${{ job.status }} message to prime-chatops room
-        uses: act10ns/slack@v1.6.0
+        uses: act10ns/slack@v2.0.0
         with:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
@@ -161,7 +161,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
       - name: Send ${{ job.status }} message to prime room
-        uses: act10ns/slack@v1.6.0
+        uses: act10ns/slack@v2.0.0
         if: ${{ failure() }}
         with:
           status: ${{ job.status }}
