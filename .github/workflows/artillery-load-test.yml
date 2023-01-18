@@ -65,8 +65,8 @@ jobs:
         if: ${{ hashFiles(format('{0}{1}', inputs.load-test-folder, inputs.load-test-file)) != '' }}
         run: |
           cd ${{ inputs.load-test-folder }}
-          npm install -g artillery@latest
-          npm install -g artillery-plugin-expect@latest
+          npm install -g artillery@2.0.0-27
+          npm install -g artillery-plugin-expect@2.1.0
           npm install
           artillery run -o report.json -e ${{ steps.prepare.outputs.test-environment }} ${{ inputs.load-test-file }} --insecure
           artillery report report.json
