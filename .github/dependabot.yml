@@ -10,4 +10,4 @@ updates:
       # Check for updates to GitHub Actions every weekday
       interval: "daily"
     reviewers:
-      - "fage88"
+      - "billapepper"
