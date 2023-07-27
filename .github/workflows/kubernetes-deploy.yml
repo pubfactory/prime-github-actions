@@ -47,7 +47,7 @@ jobs:
           ref: prod
           path: deploy
           token: ${{ secrets.GIT_ACCESS_TOKEN }}
-          repository: ${{ secrets.EKS_DEPLOYMENT_REPOSITORY }}
+          repository: pubfactory/prime-eks-deployment #${{ secrets.EKS_DEPLOYMENT_REPOSITORY }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
