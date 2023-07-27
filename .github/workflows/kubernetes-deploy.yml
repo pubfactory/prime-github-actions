@@ -27,8 +27,6 @@ on:
         required: true
       AWS_REGION_NAME:
         required: true
-      EKS_DEPLOYMENT_REPOSITORY:
-        required: true
       EKS_CLUSTER_NAME:
         required: true
       GIT_ACCESS_TOKEN:
@@ -46,7 +44,7 @@ jobs:
         with:
           ref: prod
           token: ${{ secrets.GIT_ACCESS_TOKEN }}
-          repository: ${{ secrets.EKS_DEPLOYMENT_REPOSITORY }}
+          repository: pubfactory/prime-eks-deployment
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
