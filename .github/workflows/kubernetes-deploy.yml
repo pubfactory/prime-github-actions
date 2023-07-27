@@ -34,7 +34,7 @@ on:
 
 jobs:
   eks-deploy:
-    runs-on: [self-hosted, prod]
+    runs-on: [self-hosted, prashant]
     timeout-minutes: 20
     steps:
       - name: Checkout Nomad Jobs Repo
