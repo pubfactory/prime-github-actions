@@ -45,7 +45,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: prod
-          path: deploy
           token: ${{ secrets.GIT_ACCESS_TOKEN }}
           repository: pubfactory/prime-eks-deployment #${{ secrets.EKS_DEPLOYMENT_REPOSITORY }}
 
