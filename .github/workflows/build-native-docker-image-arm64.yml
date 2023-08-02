@@ -42,7 +42,7 @@ jobs:
         - name: Set Git Branch
           if: github.event.action == 'upstream-job-success'
           run: |
-            echo "Recieved upstream-job-success message from ${{ github.event.client_payload.repository }} on branch ${{ github.event.client_payload.branch }}"
+            echo "Received upstream-job-success message from ${{ github.event.client_payload.repository }} on branch ${{ github.event.client_payload.branch }}"
             echo "GITHUB_REF_NAME=${{ github.event.client_payload.branch }}" >> $GITHUB_ENV
 
         - name: Checkout Repository
