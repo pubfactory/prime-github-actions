@@ -56,19 +56,23 @@ jobs:
             echo "allow-snapshots=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Update Maven Properties
-        run: |
-          echo "updating maven properties for dependencies that match com.pubfactory*"
-          mvn -U versions:update-properties -DallowMajorUpdates=${{ steps.update-rules.outputs.allow-major-updates }} -DallowMinorUpdates=${{ steps.update-rules.outputs.allow-minor-updates }} -DallowSnapshots=${{ steps.update-rules.outputs.allow-snapshots }} -Dincludes=com.pubfactory*
-
-      - name: Commit (if it changed)
-        id: commit
-        run: |
-          if [[ `git status --porcelain` ]]; then
-            git config --global user.name 'pubfactory-service'
-            git config --global user.email 'noreply@pubfactory.com'
-            git add -A
-            git commit -m "Bumping prime dependencies"
-            git push
-            echo "property-updated=true" >> $GITHUB_OUTPUT
-          fi
+# jhodge - commenting out the versions:update-properties for now.  This is trying to set prime-bom back to 1.0-SNAPSHOT even though that doesn't
+# even exist anymore.  I'm not even sure why we were ever running this in the first place.  I'm not deleting it for now because once I run the
+# builds I might find something that isn't working right.
+#
+#      - name: Update Maven Properties
+#        run: |
+#          echo "updating maven properties for dependencies that match com.pubfactory*"
+#          mvn -U versions:update-properties -DallowMajorUpdates=${{ steps.update-rules.outputs.allow-major-updates }} -DallowMinorUpdates=${{ steps.update-rules.outputs.allow-minor-updates }} -DallowSnapshots=${{ steps.update-rules.outputs.allow-snapshots }} -Dincludes=com.pubfactory*
+#
+#      - name: Commit (if it changed)
+#        id: commit
+#        run: |
+#          if [[ `git status --porcelain` ]]; then
+#            git config --global user.name 'pubfactory-service'
+#            git config --global user.email 'noreply@pubfactory.com'
+#            git add -A
+#            git commit -m "Bumping prime dependencies"
+#            git push
+#            echo "property-updated=true" >> $GITHUB_OUTPUT
+#          fi
