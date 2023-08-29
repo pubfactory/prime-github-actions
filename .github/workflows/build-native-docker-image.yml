@@ -70,10 +70,16 @@ jobs:
         - name: Override maven settings.xml
           run: |
             echo $MAVEN_SETTINGS > ~/.m2/settings.xml
-            ls $JAVA_HOME/lib
           shell: bash
           env:
               MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
+
+        - name: Copy Java Libraries
+          run: |
+            ls $JAVA_HOME/lib
+            mkdir /java-libs
+            cp $JAVA_HOME/lib/*.so /java-libs/.
+            ls /java-libs
 
         - id: build-docker-image
           name: Maven build native binary
