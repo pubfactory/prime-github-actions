@@ -77,9 +77,10 @@ jobs:
         - name: Copy Java Libraries
           run: |
             ls $JAVA_HOME/lib
-            mkdir /java-libs
-            cp $JAVA_HOME/lib/*.so /java-libs/.
-            ls /java-libs
+            pwd
+            mkdir java-libs
+            cp $JAVA_HOME/lib/*.so java-libs/.
+            ls java-libs
 
         - id: build-docker-image
           name: Maven build native binary
