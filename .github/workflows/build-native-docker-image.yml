@@ -74,15 +74,15 @@ jobs:
           env:
               MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
 
-        - name: Copy Java Libraries
-          run: |
-            mkdir java-libs
-            cp $JAVA_HOME/lib/*.so java-libs/.
+#        - name: Copy Java Libraries
+#          run: |
+#            pwd
+#            mkdir target/java-libs
+#            cp $JAVA_HOME/lib/*.so target/java-libs/.
 
         - id: build-docker-image
           name: Maven build native binary
           run: |
-            pwd
             git_hash=$(git rev-parse --short "$GITHUB_SHA")
             evnLatestTag=$GITHUB_REF_NAME-latest
             gitHashTag=$GITHUB_REF_NAME-$git_hash-$GITHUB_RUN_ID
