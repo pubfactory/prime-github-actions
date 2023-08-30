@@ -74,12 +74,6 @@ jobs:
           env:
               MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
 
-#        - name: Copy Java Libraries
-#          run: |
-#            pwd
-#            mkdir target/java-libs
-#            cp $JAVA_HOME/lib/*.so target/java-libs/.
-
         - id: build-docker-image
           name: Maven build native binary
           run: |
