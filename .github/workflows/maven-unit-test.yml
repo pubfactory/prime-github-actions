@@ -82,6 +82,7 @@ jobs:
       - name: Override maven settings.xml
         run: |
           echo $MAVEN_SETTINGS > ~/.m2/settings.xml
+          cat ~/.m2/settings.xml
         shell: bash
         env:
           MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
