@@ -108,7 +108,7 @@ jobs:
       - name: Generate JaCoCo Badge
         if: ${{ inputs.create-jacoco-badge }}
         id: jacoco
-        uses: cicirello/jacoco-badge-generator@v2.9.0
+        uses: cicirello/jacoco-badge-generator@v2.11.0
         with:
           badges-directory: badges_dir
           generate-summary: true
