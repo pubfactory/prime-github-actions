@@ -17,12 +17,21 @@ on:
           required: true
         SLACK_WEBHOOK:
           required: true
+        AWS_ACCESS_KEY_ID:
+          required: true
+        AWS_SECRET_ACCESS_KEY:
+          required: true
+        AWS_REGION_NAME:
+          required: true
         JAVA_DISTRIBUTION:
           required: true
         JAVA_VERSION:
           required: true
         GRAALVM_VERSION:
           required: false
+        GIT_ACCESS_TOKEN:
+          required: true
+
       outputs:
         docker-tag:
           value: ${{ jobs.build-native-image.outputs.docker-tag }}
@@ -32,7 +41,7 @@ jobs:
 
     build-native-image:
 
-      runs-on: [self-hosted, ubuntu]
+      runs-on: [self-hosted, [prod]
       timeout-minutes: 60
 
       outputs:
