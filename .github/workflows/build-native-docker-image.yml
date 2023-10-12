@@ -41,7 +41,7 @@ jobs:
 
     build-native-image:
 
-      runs-on: [self-hosted, [prod]
+      runs-on: [self-hosted, prod]
       timeout-minutes: 60
 
       outputs:
