@@ -1,0 +1,88 @@
+############################################################################################
+# Workflow that does a EKS deployment and waits for the result
+#
+# By: Prashant
+############################################################################################
+
+name: Kubernetes Deployment
+on:
+  workflow_call:
+    inputs:
+      job-name:
+        required: true
+        description: "Name of the job to deploy"
+        type: string
+      docker-default-tag:
+        required: false
+        description: "docker default tag"
+        type: string
+      docker-tag:
+        required: false
+        description: "docker tag to deploy"
+        type: string
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+      AWS_REGION_NAME:
+        required: true
+      EKS_CLUSTER_NAME:
+        required: true
+      GIT_ACCESS_TOKEN:
+        required: true
+      SLACK_WEBHOOK:
+        required: true
+
+jobs:
+  eks-deploy:
+    runs-on: [self-hosted, uat]
+    timeout-minutes: 20
+    steps:
+      - name: Checkout EKS Deployment Repo
+        uses: actions/checkout@v3
+        with:
+          ref: uat
+          token: ${{ secrets.GIT_ACCESS_TOKEN }}
+          repository: pubfactory/prime-eks-deployment
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION_NAME }}
+
+      - name: generate eks config
+        run: aws eks --region ${{ secrets.AWS_REGION_NAME }} update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }}
+
+      - name: Deploy default tag
+        if: ${{ inputs.docker-tag == '' }}
+        run: |
+          cd k8s-deployment
+          kubectl apply -f ${{ inputs.job-name }}.yaml
+
+      - name: Deploy tag ${{ inputs.docker-tag }}
+        if: ${{ inputs.docker-tag }}
+        run: |
+          cd k8s-deployment
+          sed -ie "s/${{ inputs.docker-default-tag }}/${{ inputs.docker-tag }}/g" ${{ inputs.job-name }}.yaml
+          kubectl apply -f ${{ inputs.job-name }}.yaml
+
+      - name: Send ${{ job.status }} message to prime-chatops room
+        uses: act10ns/slack@v2.0.0
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+          channel: '#prime-chatops'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Send ${{ job.status }} message to prime room
+        uses: act10ns/slack@v2.0.0
+        if: ${{ failure() }}
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
