@@ -28,7 +28,7 @@ on:
 jobs:
 
   load-test:
-    runs-on: [self-hosted, ubuntu]
+    runs-on: [self-hosted, prod]
     timeout-minutes: 15
 
     steps:
