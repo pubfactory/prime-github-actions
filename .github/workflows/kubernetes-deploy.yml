@@ -36,7 +36,7 @@ on:
 
 jobs:
   eks-deploy:
-    runs-on: [self-hosted, dev]
+    runs-on: [self-hosted, uat]
     timeout-minutes: 20
     steps:
       - name: Checkout EKS Deployment Repo
