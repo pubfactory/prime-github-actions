@@ -40,7 +40,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout EKS Deployment Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: uat
           token: ${{ secrets.GIT_ACCESS_TOKEN }}
