@@ -41,7 +41,7 @@ jobs:
 
     build-jvm-image:
 
-      runs-on: [self-hosted, uat]
+      runs-on: [self-hosted, prod]
       timeout-minutes: 60
 
       outputs:
