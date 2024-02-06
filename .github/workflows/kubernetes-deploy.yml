@@ -68,6 +68,9 @@ jobs:
           cd k8s-deployment
           sed -ie "s/${{ inputs.docker-default-tag }}/${{ inputs.docker-tag }}/g" ${{ inputs.job-name }}.yaml
           kubectl apply -f ${{ inputs.job-name }}.yaml
+      
+      - name: Check Deployment Status
+        run: kubectl rollout status deployment/${{ inputs.job-name }} --namespace prime
 
       - name: Send ${{ job.status }} message to prime-chatops room
         uses: act10ns/slack@v2.0.0
