@@ -42,7 +42,7 @@ jobs:
       - name: Checkout EKS Deployment Repo
         uses: actions/checkout@v3
         with:
-          ref: uat
+          ref: PRIME-2490
           token: ${{ secrets.GIT_ACCESS_TOKEN }}
           repository: pubfactory/prime-eks-deployment
 
